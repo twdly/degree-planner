@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DegreePlanner.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20241007022121_Initial")]
+    [Migration("20241007065004_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -138,11 +138,11 @@ namespace DegreePlanner.Migrations
 
             modelBuilder.Entity("DegreePlanner.Data.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<int?>("DegreeId")
                         .HasColumnType("int");
@@ -159,7 +159,7 @@ namespace DegreePlanner.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.HasIndex("DegreeId");
 

@@ -2,7 +2,7 @@
 
 namespace DegreePlanner.Data
 {
-    public class Database(DbContextOptions<Database> options) : DbContext(options)
+    public class Database(DbContextOptions options) : DbContext(options)
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Degree> Degrees { get; set; }
