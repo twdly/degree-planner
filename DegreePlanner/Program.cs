@@ -1,10 +1,15 @@
 using DegreePlanner.Components;
+using DegreePlanner.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+var connection = builder.Configuration.GetConnectionString("SQLDBConnection");
+builder.Services.AddDbContextFactory<Database>(x => x.UseSqlServer(connection));
 
 var app = builder.Build();
 

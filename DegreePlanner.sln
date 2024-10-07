@@ -1,6 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DegreePlanner", "DegreePlanner\DegreePlanner.csproj", "{04D15C30-CB27-4E74-974F-BE0E705572C8}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35303.130
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DegreePlanner", "DegreePlanner\DegreePlanner.csproj", "{04D15C30-CB27-4E74-974F-BE0E705572C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +15,11 @@ Global
 		{04D15C30-CB27-4E74-974F-BE0E705572C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04D15C30-CB27-4E74-974F-BE0E705572C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04D15C30-CB27-4E74-974F-BE0E705572C8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D4CC96A-C312-4515-B5DE-C33FAF9EF85C}
 	EndGlobalSection
 EndGlobal
