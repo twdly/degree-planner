@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DegreePlanner.Migrations
 {
-    [DbContext(typeof(Database))]
+    [DbContext(typeof(DatabaseContext))]
     partial class DatabaseModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -30,7 +30,10 @@ namespace DegreePlanner.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DegreeId"));
 
-                    b.Property<int>("Credits")
+                    b.Property<int>("CoreCredits")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ElectiveCredits")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -111,6 +114,8 @@ namespace DegreePlanner.Migrations
 
                     b.HasKey("PrerequisiteId");
 
+                    b.HasIndex("SubjectId");
+
                     b.ToTable("Prerequisites");
                 });
 
@@ -121,9 +126,6 @@ namespace DegreePlanner.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubjectId"));
-
-                    b.Property<int>("Credits")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -139,7 +141,7 @@ namespace DegreePlanner.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"), 10000L);
 
                     b.Property<int?>("DegreeId")
                         .HasColumnType("int");
@@ -186,21 +188,6 @@ namespace DegreePlanner.Migrations
                     b.ToTable("UserSubjects");
                 });
 
-            modelBuilder.Entity("PrerequisiteSubject", b =>
-                {
-                    b.Property<int>("PrerequisitesPrerequisiteId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PrerequisitesPrerequisiteId", "SubjectId");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("PrerequisiteSubject");
-                });
-
             modelBuilder.Entity("DegreePlanner.Data.DegreeSubject", b =>
                 {
                     b.HasOne("DegreePlanner.Data.Degree", null)
@@ -238,6 +225,15 @@ namespace DegreePlanner.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DegreePlanner.Data.Prerequisite", b =>
+                {
+                    b.HasOne("DegreePlanner.Data.Subject", null)
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DegreePlanner.Data.User", b =>
                 {
                     b.HasOne("DegreePlanner.Data.Degree", "Degree")
@@ -264,21 +260,6 @@ namespace DegreePlanner.Migrations
                     b.HasOne("DegreePlanner.Data.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PrerequisiteSubject", b =>
-                {
-                    b.HasOne("DegreePlanner.Data.Prerequisite", null)
-                        .WithMany()
-                        .HasForeignKey("PrerequisitesPrerequisiteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DegreePlanner.Data.Subject", null)
-                        .WithMany()
-                        .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

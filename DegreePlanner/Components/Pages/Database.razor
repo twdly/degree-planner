@@ -1,0 +1,19 @@
+﻿@page "/database"
+@using DegreePlanner.Services
+@rendermode InteractiveServer
+<h3>Database</h3>
+<button @onclick="ResetDatabase">Reset database</button>
+<p style="color:red">@message</p>
+<p>This page is for testing purposes only. Please do not consider this to be a part of the actual implementation.</p>
+
+@code {
+	[Inject]
+	DatabaseResetService databaseResetService { get; set; }
+	public string message = "";
+
+	public void ResetDatabase()
+	{
+		databaseResetService.ResetDatabase();
+		message = "Database has been reset!";
+	}
+}

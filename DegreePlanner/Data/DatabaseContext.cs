@@ -2,7 +2,7 @@
 
 namespace DegreePlanner.Data
 {
-    public class Database(DbContextOptions options) : DbContext(options)
+    public class DatabaseContext(DbContextOptions options) : DbContext(options)
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Degree> Degrees { get; set; }
@@ -30,9 +30,15 @@ namespace DegreePlanner.Data
                 .WithMany(e => e.Users)
                 .UsingEntity<UserSubject>();
 
+            modelBuilder.Entity<User>()
+                .Property(e => e.UserId)
+                .ValueGeneratedOnAdd()
+                .UseIdentityColumn(10000, 1);
+
             modelBuilder.Entity<Subject>()
                 .HasMany(e => e.Prerequisites)
-                .WithMany();
+                .WithMany()
+                .UsingEntity<Prerequisite>();
         }
     }
 }
