@@ -9,7 +9,6 @@ namespace DegreePlanner.Data
         public DbSet<Major> Majors { get; set; }
         public DbSet<UserSubject> UserSubjects { get; set; }
         public DbSet<Subject> Subjects { get; set; }
-        public DbSet<Prerequisite> Prerequisites { get; set; }
         public DbSet<DegreeSubject> DegreeSubjects { get; set; }
         public DbSet<MajorSubject> MajorSubjects { get; set; }
 
@@ -34,11 +33,6 @@ namespace DegreePlanner.Data
                 .Property(e => e.UserId)
                 .ValueGeneratedOnAdd()
                 .UseIdentityColumn(10000, 1);
-
-            modelBuilder.Entity<Subject>()
-                .HasMany(e => e.Prerequisites)
-                .WithMany()
-                .UsingEntity<Prerequisite>();
         }
     }
 }

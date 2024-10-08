@@ -10,7 +10,6 @@ namespace DegreePlanner.Services
 			database.DegreeSubjects.RemoveRange(database.DegreeSubjects.ToList());
 			database.MajorSubjects.RemoveRange(database.MajorSubjects.ToList());
 			database.UserSubjects.RemoveRange(database.UserSubjects.ToList());
-			database.Prerequisites.RemoveRange(database.Prerequisites.ToList());
 			database.Users.RemoveRange(database.Users.ToList());
 			database.Degrees.RemoveRange(database.Degrees.ToList());
 			database.Majors.RemoveRange(database.Majors.ToList());
