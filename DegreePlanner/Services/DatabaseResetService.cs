@@ -1,4 +1,5 @@
 ﻿using DegreePlanner.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace DegreePlanner.Services
 {
@@ -7,13 +8,13 @@ namespace DegreePlanner.Services
 		public void ResetDatabase()
 		{
 			// Clear all existing data from all tables
-			database.DegreeSubjects.RemoveRange(database.DegreeSubjects.ToList());
-			database.MajorSubjects.RemoveRange(database.MajorSubjects.ToList());
-			database.UserSubjects.RemoveRange(database.UserSubjects.ToList());
-			database.Users.RemoveRange(database.Users.ToList());
-			database.Degrees.RemoveRange(database.Degrees.ToList());
-			database.Majors.RemoveRange(database.Majors.ToList());
-			database.Subjects.RemoveRange(database.Subjects.ToList());
+			database.DegreeSubjects.ExecuteDelete();
+			database.MajorSubjects.ExecuteDelete();
+			database.UserSubjects.ExecuteDelete();
+			database.Users.ExecuteDelete();
+			database.Majors.ExecuteDelete();
+			database.Degrees.ExecuteDelete();
+			database.Subjects.ExecuteDelete();
 
 			Subject prog1 = new()
 			{
