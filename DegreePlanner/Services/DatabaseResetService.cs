@@ -18,29 +18,35 @@ namespace DegreePlanner.Services
 
 			Subject prog1 = new()
 			{
-				Name = "Programming 1"
+				Name = "Programming 1",
+				SubjectCode = 41039
 			};
 			Subject prog2 = new()
 			{
 				Name = "Programming 2",
+				SubjectCode = 48024,
 				Prerequisites = [prog1]
 			};
 			Subject dotnet = new()
 			{
 				Name = "Application Development with .NET",
+				SubjectCode = 31927,
 				Prerequisites = [prog2]
 			};
 			Subject linearAlgebra = new()
 			{
-				Name = "Linear Algebra"
+				Name = "Linear Algebra",
+				SubjectCode = 37233
 			};
 			Subject probability = new()
 			{
-				Name = "Probability and Random Variables"
+				Name = "Probability and Random Variables",
+				SubjectCode = 37161
 			};
 			Subject brm = new()
 			{
-				Name = "Business Requirements Modelling"
+				Name = "Business Requirements Modelling",
+				SubjectCode = 31269
 			};
 			List<Subject> subjects = [prog1, prog2, dotnet, linearAlgebra, probability, brm];
 
