@@ -1,6 +1,7 @@
 using DegreePlanner.Components;
 using DegreePlanner.Data;
 using DegreePlanner.Services;
+using DegreePlanner.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +25,7 @@ builder.Services.AddCascadingAuthenticationState();
 var connection = builder.Configuration.GetConnectionString("SQLDBConnection");
 builder.Services.AddDbContextFactory<DatabaseContext>(x => x.UseSqlServer(connection));
 builder.Services.AddScoped<DatabaseResetService>();
+builder.Services.AddScoped<IDegreeService, DegreeService>();
 
 var app = builder.Build();
 

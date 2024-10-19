@@ -1,0 +1,16 @@
+﻿@page "/my-degree"
+
+<h3>My Degree</h3>
+@if (degree == null)
+{
+	<p>You have not yet enrolled in a degree</p>
+}
+else
+{
+	<p>You are currently enrolled in @degree.Name</p>
+	<h4>Available subjects:</h4>
+	@foreach (var subject in degree.Subjects)
+	{
+		<p>(@subject.SubjectCode) - @subject.Name</p>
+	}
+}
