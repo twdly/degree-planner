@@ -1,5 +1,6 @@
 ﻿using DegreePlanner.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
 
 namespace DegreePlanner.Services
 {
@@ -16,6 +17,7 @@ namespace DegreePlanner.Services
 			database.Degrees.ExecuteDelete();
 			database.Subjects.ExecuteDelete();
 
+			// Create subjects
 			Subject prog1 = new()
 			{
 				Name = "Programming 1",
@@ -50,7 +52,7 @@ namespace DegreePlanner.Services
 			};
 			List<Subject> subjects = [prog1, prog2, dotnet, linearAlgebra, probability, brm];
 
-
+			// Create majors containing these subjects
 			List<Major> majors = [];
 			majors.Add(new()
 			{
@@ -65,6 +67,7 @@ namespace DegreePlanner.Services
 				Subjects = [linearAlgebra, probability]
 			});
 
+			// Create degrees containing majors and subjects
 			Degree compsci = new()
 			{
 				Name = "Computer Science",
@@ -83,6 +86,7 @@ namespace DegreePlanner.Services
 			};
 			List<Degree> degrees = [compsci, bit];
 
+			// Create sample users
 			List<User> users = [];
 			users.Add(new()
 			{
@@ -105,6 +109,7 @@ namespace DegreePlanner.Services
 				Role = UserRole.Admin,
 			});
 
+			// Add created objects to the database
 			database.Subjects.AddRange(subjects);
 			database.Majors.AddRange(majors);
 			database.Degrees.AddRange(degrees);
@@ -112,6 +117,7 @@ namespace DegreePlanner.Services
 
 			database.SaveChanges();
 
+			// Update the types of subjects in the associative degree subject table
 			var degreeSubjects = database.DegreeSubjects.ToList();
 			degreeSubjects[0].Type = DegreeSubjectType.Core;
 			degreeSubjects[1].Type = DegreeSubjectType.Elective;

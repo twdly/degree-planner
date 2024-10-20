@@ -13,4 +13,16 @@ else
 	{
 		<p>(@subject.SubjectCode) - @subject.Name</p>
 	}
+	<h4>Available majors:</h4>
+	@foreach (var major in majors)
+	{
+		<p>@major.Name</p>
+		<p>Subjects:</p>
+		<ul>
+			@foreach (var subject in major.subjects)
+			{
+				<li>@subject.Name</li>
+			}
+		</ul>
+	}
 }

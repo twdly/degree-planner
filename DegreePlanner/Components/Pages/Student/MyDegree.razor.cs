@@ -14,11 +14,13 @@ namespace DegreePlanner.Components.Pages.Student
 		private Task<AuthenticationState> authenticationState { get; set; }
 
 		public DegreeViewModel? degree;
+		public List<MajorViewModel> majors;
 
 		protected override async Task OnInitializedAsync()
 		{
 			var authState = await authenticationState;
 			degree = degreeService.GetDegreeForUser(int.Parse(authState.User.Identity.Name)); // User ID is stored in the name field of the authstate
+			majors = degreeService.GetMajorsForDegree(degree);
 		}
 	}
 }
