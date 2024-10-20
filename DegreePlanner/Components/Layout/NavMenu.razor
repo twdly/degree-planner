@@ -35,15 +35,28 @@
                     <NavLink class="nav-link" href="my-degree">
                         <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> My Degree
                     </NavLink>
-                    <NavLink class="nav-link" href="subjects">
+                    <NavLink class="nav-link" href="my-subjects">
                         <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> My Subjects
+                    </NavLink>
+                    <NavLink class="nav-link" href="my-results">
+                        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> My Results
                     </NavLink>
                 </div>
             </Authorized>
         </AuthorizeView>
         <AuthorizeView Roles="Staff">
             <Authorized>
-                @* Staff links go here *@
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="enrolments">
+                        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Enrolments
+                    </NavLink>
+                    <NavLink class="nav-link" href="subjects">
+                        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Subjects
+                    </NavLink>
+                    <NavLink class="nav-link" href="results">
+                        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Results
+                    </NavLink>
+                </div>
             </Authorized>
         </AuthorizeView>
         <AuthorizeView Roles="Admin">
