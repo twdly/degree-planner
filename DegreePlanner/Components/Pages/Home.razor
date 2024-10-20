@@ -1,11 +1,29 @@
 ﻿@page "/"
+@using DegreePlanner.Services.Interfaces
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Degree Planner</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>UTS Degree Planner</h1>
 
-Welcome to your new app.
+<AuthorizeView>
+	<NotAuthorized>
+		<p>Please <a href="/login">click here</a> to log in!</p>
+	</NotAuthorized>
+	<Authorized>
+		Welcome, @GetUserName().Result!
+	</Authorized>
+</AuthorizeView>
 
 @code {
+	[CascadingParameter]
+	private Task<AuthenticationState> authenticationState { get; set; }
 
+	[Inject]
+	private IUserService userService { get; set; }
+
+	public async Task<string> GetUserName()
+	{
+		var authState = await authenticationState;
+		return userService.GetUserFromId(int.Parse(authState.User.Identity.Name)).Name;
+	}
 }

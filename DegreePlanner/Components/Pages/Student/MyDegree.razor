@@ -1,5 +1,7 @@
 ﻿@page "/my-degree"
+@using Microsoft.AspNetCore.Authorization
 @rendermode InteractiveServer
+@attribute [Authorize(Roles = "Student")]
 
 <h3>My Degree</h3>
 <p style="color:red">@enrolMessage</p>

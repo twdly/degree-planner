@@ -26,6 +26,7 @@ var connection = builder.Configuration.GetConnectionString("SQLDBConnection");
 builder.Services.AddDbContextFactory<DatabaseContext>(x => x.UseSqlServer(connection));
 builder.Services.AddScoped<DatabaseResetService>();
 builder.Services.AddScoped<IDegreeService, DegreeService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
