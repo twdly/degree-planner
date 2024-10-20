@@ -1,4 +1,5 @@
 ﻿using DegreePlanner.Data;
+using System.Net;
 
 namespace DegreePlanner.ViewModels
 {

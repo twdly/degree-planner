@@ -1,9 +1,28 @@
 ﻿@page "/my-degree"
+@rendermode InteractiveServer
 
 <h3>My Degree</h3>
+<p style="color:red">@enrolMessage</p>
 @if (degree == null)
 {
-	<p>You have not yet enrolled in a degree</p>
+	<p>You have not yet enrolled in a degree. Please select one now:</p>
+	<fieldset>
+		@foreach (var degree in availableDegrees)
+		{
+			<label>@degree.Name</label>
+			<input type="radio" @onclick="() => UpdateSelection(degree.Id)" />
+			<p>Available subjects:</p>
+			<ul>
+				@foreach (var subject in degree.Subjects)
+				{
+					<li>
+						@subject.Name
+					</li>
+				}
+			</ul>
+		}
+	</fieldset>
+	<button @onclick="EnrolInDegree" disabled="@(degreeSelection == 0)">Enrol</button>
 }
 else
 {
