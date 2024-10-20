@@ -1,9 +1,27 @@
 ﻿@page "/my-subjects"
+@rendermode InteractiveServer
+@using DegreePlanner.Data
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize(Roles = "Student")]
 
 <h3>My Subjects</h3>
 
-@code {
+@if (!typeSelected)
+{
+	<p>How would you like to manage your subjects?</p>
+	<fieldset>
+		<label>Plan</label>
+		<input type="radio" name="enrol-type" @onclick="() => SetEnrolType(UserSubjectState.Planned)"/>
 
+		<label>Enrol</label>
+		<input type="radio" name="enrol-type" @onclick="() => SetEnrolType(UserSubjectState.Enrolled)" />
+	</fieldset>
+	<button @onclick="LoadSubjects">Select</button>
+}
+else
+{
+	@if (!subjects.Any())
+	{
+		<p>Loading subjects...</p>
+	}
 }
