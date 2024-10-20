@@ -12,7 +12,7 @@
 		@foreach (var degree in availableDegrees)
 		{
 			<label>@degree.Name</label>
-			<input type="radio" @onclick="() => UpdateSelection(degree.Id)" />
+			<input type="radio" name="degree" @onclick="() => UpdateSelection(degree.Id)" />
 			<p>Available subjects:</p>
 			<ul>
 				@foreach (var subject in degree.Subjects)
