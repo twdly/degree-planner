@@ -6,9 +6,9 @@
 
 <h3>My Subjects</h3>
 <p>@message</p>
-@if (degree == null)
+@if (degree == null || major == null)
 {
-	<p style="color:red">You have not enrolled in a degree yet. <a href="/my-degree">Click here to enrol</a>.</p>
+	<p style="color:red">You have completed your enrolment yet. <a href="/my-degree">Click here to enrol</a>.</p>
 }
 else
 {
@@ -32,10 +32,17 @@ else
 		}
 		else
 		{
-			@foreach (var subject in subjects)
+			<h4>Core subjects:</h4>
+			@foreach (var subject in subjects.Where(x => x.type == DegreeSubjectType.Core))
 			{
 				<label>@subject.Name</label>
 				<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected"/>
+			}
+			<h4>Elective subjects:</h4>
+			@foreach (var subject in subjects.Where(x => x.type == DegreeSubjectType.Elective))
+			{
+				<label>@subject.Name</label>
+				<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected" />
 			}
 			<br />
 			<button @onclick="UpdateSubjects">Save</button>

@@ -7,6 +7,7 @@ namespace DegreePlanner.ViewModels
 		public int SubjectCode { get; set; }
 		public string Name { get; set; }
 		public bool Selected = false;
+		public DegreeSubjectType type;
 
 		public SubjectViewModel(Subject subject)
 		{
@@ -19,6 +20,7 @@ namespace DegreePlanner.ViewModels
 			SubjectCode = degreeSubject.SubjectId;
 			Name = name;
 			Selected = selected;
+			type = degreeSubject.Type;
 		}
 	}
 }
