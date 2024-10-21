@@ -6,22 +6,29 @@
 
 <h3>My Subjects</h3>
 
-@if (!typeSelected)
+@if (degree == null)
 {
-	<p>How would you like to manage your subjects?</p>
-	<fieldset>
-		<label>Plan</label>
-		<input type="radio" name="enrol-type" @onclick="() => SetEnrolType(UserSubjectState.Planned)"/>
-
-		<label>Enrol</label>
-		<input type="radio" name="enrol-type" @onclick="() => SetEnrolType(UserSubjectState.Enrolled)" />
-	</fieldset>
-	<button @onclick="LoadSubjects">Select</button>
+	<p style="color:red">You have not enrolled in a degree yet. <a href="/my-degree">Click here to enrol</a>.</p>
 }
 else
 {
-	@if (!subjects.Any())
+	@if (!typeSelected)
 	{
-		<p>Loading subjects...</p>
+		<p>How would you like to manage your subjects?</p>
+		<fieldset>
+			<label>Plan</label>
+			<input type="radio" name="enrol-type" @onclick="() => SetEnrolType(UserSubjectState.Planned)" />
+
+			<label>Enrol</label>
+			<input type="radio" name="enrol-type" @onclick="() => SetEnrolType(UserSubjectState.Enrolled)" />
+		</fieldset>
+		<button @onclick="LoadSubjects">Select</button>
+	}
+	else
+	{
+		@if (!subjects.Any())
+		{
+			<p>Loading subjects...</p>
+		}
 	}
 }

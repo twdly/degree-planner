@@ -18,5 +18,11 @@ namespace DegreePlanner.Services
 			var user = databaseContext.Users.Include(x => x.Major).ThenInclude(x => x.Subjects).FirstOrDefault(x => x.UserId == userId);
 			return user.Major != null ? new(user.Major) : null;
 		}
+
+		public DegreeViewModel? GetDegreeForUser(int id)
+		{
+			var user = databaseContext.Users.Include(x => x.Major).Include(x => x.Degree).ThenInclude(x => x.Subjects).FirstOrDefault(x => x.UserId == id);
+			return user.Degree != null ? new(user.Degree) : null;
+		}
 	}
 }

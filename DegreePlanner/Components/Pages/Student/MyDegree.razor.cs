@@ -27,7 +27,7 @@ namespace DegreePlanner.Components.Pages.Student
 		{
 			var authState = await authenticationState;
 			var userId = int.Parse(authState.User.Identity.Name); // User ID is stored in the name field of the authstate
-			degree = DegreeService.GetDegreeForUser(userId);
+			degree = UserService.GetDegreeForUser(userId);
 			if (degree == null)
 			{
 				availableDegrees = DegreeService.GetAllDegrees();
