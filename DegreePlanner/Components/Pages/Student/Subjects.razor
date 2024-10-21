@@ -5,7 +5,7 @@
 @attribute [Authorize(Roles = "Student")]
 
 <h3>My Subjects</h3>
-
+<p>@message</p>
 @if (degree == null)
 {
 	<p style="color:red">You have not enrolled in a degree yet. <a href="/my-degree">Click here to enrol</a>.</p>
@@ -29,6 +29,16 @@ else
 		@if (!subjects.Any())
 		{
 			<p>Loading subjects...</p>
+		}
+		else
+		{
+			@foreach (var subject in subjects)
+			{
+				<label>@subject.Name</label>
+				<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected"/>
+			}
+			<br />
+			<button @onclick="UpdateSubjects">Save</button>
 		}
 	}
 }

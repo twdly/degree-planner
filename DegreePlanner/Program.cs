@@ -27,6 +27,7 @@ builder.Services.AddDbContextFactory<DatabaseContext>(x => x.UseSqlServer(connec
 builder.Services.AddScoped<DatabaseResetService>();
 builder.Services.AddScoped<IDegreeService, DegreeService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ISubjectService, SubjectService>();
 
 var app = builder.Build();
 
