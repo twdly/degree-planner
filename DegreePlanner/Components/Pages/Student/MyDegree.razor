@@ -24,7 +24,7 @@
 			</ul>
 		}
 	</fieldset>
-	<button @onclick="EnrolInDegree" disabled="@(degreeSelection == 0)">Enrol</button>
+	<button @onclick="EnrolInDegree" disabled="@(selectedRadioId == 0)">Enrol</button>
 }
 else
 {
@@ -34,16 +34,37 @@ else
 	{
 		<p>(@subject.SubjectCode) - @subject.Name</p>
 	}
-	<h4>Available majors:</h4>
-	@foreach (var major in majors)
+	@if (majors.Any()) // The majors list is only populated if the user has not enrolled in a major yet
 	{
-		<p>@major.Name</p>
+		<h4>You are not enrolled in a major. Please select one now.</h4>
+		<h4>Available majors:</h4>
+		<fieldset>
+			@foreach (var major in majors)
+			{
+				<label>@major.Name</label>
+				<input type="radio" name="major-selection" @onclick="() => UpdateSelection(major.Id)"/>
+				<p>Subjects:</p>
+				<ul>
+					@foreach (var subject in major.subjects)
+					{
+						<li>@subject.Name</li>
+					}
+				</ul>
+			}
+		</fieldset>
+		<button @onclick="EnrolInMajor">Select</button>
+	}
+	else
+	{
+		<h4>Your major:</h4>
+		<p>@userMajor.Name</p>
 		<p>Subjects:</p>
 		<ul>
-			@foreach (var subject in major.subjects)
+			@foreach (var subject in userMajor.subjects)
 			{
 				<li>@subject.Name</li>
 			}
 		</ul>
 	}
+
 }

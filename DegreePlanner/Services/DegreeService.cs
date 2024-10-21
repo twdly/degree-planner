@@ -15,6 +15,14 @@ namespace DegreePlanner.Services
 			databaseContext.SaveChanges();
 		}
 
+		public void EnrolInMajor(int userId, int majorId)
+		{
+			var user = databaseContext.Users.FirstOrDefault(x => x.UserId == userId);
+			var major = databaseContext.Majors.FirstOrDefault(x => x.MajorId == majorId);
+			user.Major = major;
+			databaseContext.SaveChanges();
+		}
+
 		public List<DegreeViewModel> GetAllDegrees()
 		{
 			var degrees = databaseContext.Degrees.Include(x => x.Subjects).Include(x => x.Majors).ToList();
@@ -28,7 +36,7 @@ namespace DegreePlanner.Services
 
 		public DegreeViewModel? GetDegreeForUser(int id)
 		{
-			var user = databaseContext.Users.Include(x => x.Degree).ThenInclude(x => x.Subjects).FirstOrDefault(x => x.UserId == id);
+			var user = databaseContext.Users.Include(x => x.Major).Include(x => x.Degree).ThenInclude(x => x.Subjects).FirstOrDefault(x => x.UserId == id);
 			return user.Degree != null ? new(user.Degree) : null;
 		}
 
