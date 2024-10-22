@@ -90,6 +90,33 @@ namespace DegreePlanner.Services
 			return subjectViewModels;
 		}
 
+		public List<SubjectViewModel> GetPredictionSubjects(int userId)
+		{
+			// Subjects with a state of either planned or enrolled indicate that the student is yet to complete the subject
+			var subjects = GetUserSubjectsWithState(UserSubjectState.Planned, userId);
+			subjects.AddRange(GetUserSubjectsWithState(UserSubjectState.Enrolled, userId));
+
+			List<SubjectViewModel> viewModels = [];
+			foreach (var subject in subjects)
+			{
+				viewModels.Add(new(subject, GetSubjectNameFromId(subject.SubjectId)));
+			}
+			return viewModels;
+		}
+
+		public List<SubjectViewModel> GetCompletedSubjects(int userId)
+		{
+			var subjects = GetUserSubjectsWithState(UserSubjectState.Passed, userId);
+			subjects.AddRange(GetUserSubjectsWithState(UserSubjectState.Failed, userId));
+
+			List<SubjectViewModel> viewModels = [];
+			foreach (var subject in subjects)
+			{
+				viewModels.Add(new(subject, GetSubjectNameFromId(subject.SubjectId)));
+			}
+			return viewModels;
+		}
+
 		private DegreeSubjectType GetSubjectType(int userId, int subjectId)
 		{
 			var user = databaseContext.Users.Include(x => x.Major).Include(x => x.Degree).FirstOrDefault(x => x.UserId == userId);

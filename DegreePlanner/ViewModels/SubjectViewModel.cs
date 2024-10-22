@@ -8,11 +8,19 @@ namespace DegreePlanner.ViewModels
 		public string Name { get; set; }
 		public bool Selected = false;
 		public DegreeSubjectType Type;
+		public int Mark = 0;
 
 		public SubjectViewModel(Subject subject)
 		{
 			SubjectId = subject.SubjectCode;
 			Name = subject.Name!;
+		}
+
+		public SubjectViewModel(UserSubject userSubject, string name)
+		{
+			SubjectId = userSubject.SubjectId;
+			Name = name;
+			Mark = userSubject.Mark;
 		}
 
 		public SubjectViewModel(Subject subject, bool selected, DegreeSubjectType type)
