@@ -61,5 +61,12 @@ namespace DegreePlanner.Components.Pages.Student
         {
             return enrolType == UserSubjectState.Planned ? "Planning Subjects" : "Enrolling in Subjects";
         }
+
+        public bool CanEnrol()
+        {
+            if (enrolType == UserSubjectState.Planned) return true;
+
+            return subjects.Where(x => x.Selected).Count() <= 4;
+        }
 	}
 }

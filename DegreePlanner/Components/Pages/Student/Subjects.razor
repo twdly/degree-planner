@@ -54,7 +54,11 @@ else
 				<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected" />
 				<br />
 			}
-			<button @onclick="UpdateSubjects">Save</button>
+			@if (!CanEnrol())
+			{
+				<p style="color:red">You may not enrol in more than 4 subjects.</p>
+			}
+			<button @onclick="UpdateSubjects" disabled="@(!CanEnrol())">Save</button>
 		}
 	}
 }
