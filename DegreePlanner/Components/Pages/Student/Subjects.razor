@@ -32,22 +32,23 @@ else
 		}
 		else
 		{
+			<h3>@GetSubjectTypeTitle()</h3>
 			<h4>Core subjects:</h4>
-			@foreach (var subject in subjects.Where(x => x.type == DegreeSubjectType.Core))
+			@foreach (var subject in subjects.Where(x => x.Type == DegreeSubjectType.Core))
 			{
 				<label>@subject.Name</label>
 				<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected"/>
 				<br />
 			}
 			<h4>Elective subjects:</h4>
-			@foreach (var subject in subjects.Where(x => x.type == DegreeSubjectType.Elective))
+			@foreach (var subject in subjects.Where(x => x.Type == DegreeSubjectType.Elective))
 			{
 				<label>@subject.Name</label>
 				<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected" />
 				<br />
 			}
 			<h4>Major subjects:</h4>
-			@foreach (var subject in subjects.Where(x => x.type == DegreeSubjectType.Major))
+			@foreach (var subject in subjects.Where(x => x.Type == DegreeSubjectType.Major))
 			{
 				<label>@subject.Name</label>
 				<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected" />

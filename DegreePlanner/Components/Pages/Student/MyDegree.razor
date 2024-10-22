@@ -32,7 +32,7 @@ else
 	<h4>Available subjects:</h4>
 	@foreach (var subject in degree.Subjects)
 	{
-		<p>(@subject.SubjectCode) - @subject.Name</p>
+		<p>(@subject.SubjectId) - @subject.Name</p>
 	}
 	@if (majors.Any()) // The majors list is only populated if the user has not enrolled in a major yet
 	{

@@ -37,6 +37,10 @@ namespace DegreePlanner.Components.Pages.Student
             {
                 subjects = SubjectService.GetDegreeSubjectsToPlan(userId);
             }
+            else
+            {
+                subjects = SubjectService.GetSubjectsToEnrol(userId);
+            }
         }
 
         public async void UpdateSubjects()
@@ -52,5 +56,10 @@ namespace DegreePlanner.Components.Pages.Student
             degree = UserService.GetDegreeForUser(userId);
             major = UserService.GetUserMajor(userId);
 		}
+
+        public string GetSubjectTypeTitle()
+        {
+            return enrolType == UserSubjectState.Planned ? "Planning Subjects" : "Enrolling in Subjects";
+        }
 	}
 }

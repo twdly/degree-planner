@@ -16,7 +16,7 @@ namespace DegreePlanner.Data
         public UserSubject(SubjectViewModel viewModel, int userId, UserSubjectState state)
         {
             UserId = userId;
-            SubjectId = viewModel.SubjectCode;
+            SubjectId = viewModel.SubjectId;
             State = state;
             Mark = 0;
         }
