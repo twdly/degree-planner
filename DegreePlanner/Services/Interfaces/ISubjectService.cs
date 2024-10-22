@@ -24,6 +24,7 @@ namespace DegreePlanner.Services.Interfaces
 		 * Get the list of subjects that the user has planned or enrolled in
 		 */
 		List<SubjectViewModel> GetSubjectsToEnrol(int userId);
+		List<SubjectViewModel> GetTeacherSubjects(int userId);
 
 		/**
 		 * Update the user state for each of the provided subjects

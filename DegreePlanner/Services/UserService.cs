@@ -24,5 +24,26 @@ namespace DegreePlanner.Services
 			var user = databaseContext.Users.Include(x => x.Major).Include(x => x.Degree).ThenInclude(x => x.Subjects).FirstOrDefault(x => x.UserId == id);
 			return user.Degree != null ? new(user.Degree) : null;
 		}
+
+		public SubjectEnrolmentViewModel GetSubjectEnrolment(int subjectId)
+		{
+			var enrolledStudentIds = databaseContext.UserSubjects
+				.Where(x => x.State == UserSubjectState.Enrolled && x.SubjectId == subjectId)
+				.Select(x => x.UserId)
+				.ToList();
+
+			var subjectName = databaseContext.Subjects.Include(x => x.Users).FirstOrDefault(x => x.SubjectId == subjectId)?.Name;
+
+			var enrolledStudents = databaseContext.Users.Where(x => enrolledStudentIds.Contains(x.UserId));
+			List<UserViewModel> enrolledStudentsViewModel = [];
+            foreach (var student in enrolledStudents)
+            {
+				enrolledStudentsViewModel.Add(new(student));
+            }
+
+			int plannedCount = databaseContext.UserSubjects.Count(x => x.SubjectId == subjectId && x.State == UserSubjectState.Planned);
+
+			return new(enrolledStudentsViewModel, plannedCount, subjectName!);
+		}
 	}
 }

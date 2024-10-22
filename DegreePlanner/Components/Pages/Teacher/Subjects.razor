@@ -1,7 +1,31 @@
 ﻿@page "/subjects"
+@rendermode InteractiveServer
 
-<h3>Subjects</h3>
-
-@code {
-
+@if (subjectEnrolment == null)
+{
+	<h3>My Subjects</h3>
+	@if (!teacherSubjects.Any())
+	{
+		<p>You do not teach any subjects</p>
+	}
+	else
+	{
+		@foreach (var subject in teacherSubjects)
+		{
+			<p>@subject.Name</p>
+			<p>@subject.Type.ToString()</p>
+			<button @onclick="() => SelectSubject(subject.SubjectId)">Select subject</button>
+		}
+	}
 }
+else
+{
+	<h3>Enrolment for @subjectEnrolment.Name</h3>
+	<p>@subjectEnrolment.PlannedCount students are currently planning this subject.</p>
+	<p>Current enrolments:</p>
+	@foreach (var student in subjectEnrolment.Students)
+	{
+		<p>@student.Name</p>
+	}
+}
+

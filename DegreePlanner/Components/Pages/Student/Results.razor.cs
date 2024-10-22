@@ -35,7 +35,7 @@ namespace DegreePlanner.Components.Pages.Student
 
 		private double GetPredictedWam()
 		{
-			predictionSubjects.ForEach(x => ValidateInputs(ref x.Mark));
+			predictionSubjects.ForEach(x => ValidateMarks(ref x.Mark));
 			var predictedSubjects = predictionSubjects.Where(x => x.Mark != 0).ToList(); // Remove subjects with a mark of 0 as the user has not made a prediction
 			int totalMarks = predictionSubjects.Sum(x => x.Mark);
 			totalMarks += completedSubjects.Sum(x => x.Mark); // Completed subjects should still be counted in the prediction WAM
@@ -44,7 +44,7 @@ namespace DegreePlanner.Components.Pages.Student
 			return (double)totalMarks / totalSubjects;
 		}
 
-		private void ValidateInputs(ref int value)
+		private static void ValidateMarks(ref int value)
 		{
 			if (value < 0) value = 0;
 			else if (value > 100) value = 100;
