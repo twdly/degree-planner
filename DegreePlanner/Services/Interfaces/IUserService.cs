@@ -23,5 +23,15 @@ namespace DegreePlanner.Services.Interfaces
 		 * Gets the enrolment details for the given subject
 		 */
 		SubjectEnrolmentViewModel GetSubjectEnrolment(int subjectId);
+
+		/**
+		 * Gets a list of staff (excluding the coordinator) and their tutor status
+		 */
+		List<TutorViewModel> GetTutorsForSubject(int coordinatorId, int subjectId);
+
+		/**
+		 * Saves the tutor status of staff for the given subject
+		 */
+		void SaveTutorsForSubject(List<TutorViewModel> tutors, int subjectId);
 	}
 }

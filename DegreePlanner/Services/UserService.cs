@@ -45,5 +45,35 @@ namespace DegreePlanner.Services
 
 			return new(enrolledStudentsViewModel, plannedCount, subjectName!);
 		}
+
+		public List<TutorViewModel> GetTutorsForSubject(int coordinatorId, int subjectId)
+		{
+			var staff = databaseContext.Users.Where(x => x.UserId != coordinatorId && x.Role == UserRole.Staff).ToList();
+			var currentTutorIds = databaseContext.UserSubjects.Where(x => x.SubjectId == subjectId && x.State == UserSubjectState.Tutor).Select(x => x.UserId).ToList();
+
+			List<TutorViewModel> tutorViewModels = [];
+			foreach (var tutor in staff)
+			{
+				tutorViewModels.Add(new(tutor, currentTutorIds.Contains(tutor.UserId)));
+			}
+
+			return tutorViewModels;
+		}
+
+		public async void SaveTutorsForSubject(List<TutorViewModel> tutors, int subjectId)
+		{
+			var currentTutors = databaseContext.UserSubjects.Where(x => x.SubjectId == subjectId && x.State == UserSubjectState.Tutor).ToList();
+			databaseContext.RemoveRange(currentTutors);
+
+			var selectedTutors = tutors.Where(x => x.IsTutor).ToList();
+			List<UserSubject> dbTutors = [];
+			foreach (var tutor in selectedTutors)
+			{
+				dbTutors.Add(new(tutor, subjectId));
+			}
+
+			databaseContext.AddRange(dbTutors);
+			await databaseContext.SaveChangesAsync();
+		}
 	}
 }

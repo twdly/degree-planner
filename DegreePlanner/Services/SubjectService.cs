@@ -137,5 +137,18 @@ namespace DegreePlanner.Services
 
 			return subjectViewModels;
 		}
+
+		public List<SubjectViewModel> GetCoordinatedSubjects(int userId)
+		{
+			var coordinatedSubjects = databaseContext.UserSubjects.Where(x => x.UserId == userId && x.State == UserSubjectState.Coordinator).ToList();
+
+			List<SubjectViewModel> subjectViewModels = [];
+			foreach (var subject in coordinatedSubjects)
+			{
+				subjectViewModels.Add(new(subject, GetSubjectNameFromId(subject.SubjectId)));
+			}
+
+			return subjectViewModels;
+		}
 	}
 }

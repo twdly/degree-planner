@@ -1,0 +1,32 @@
+﻿@page "/tutors"
+@rendermode InteractiveServer
+
+<h3>Manage Tutors</h3>
+@if (!subjects.Any())
+{
+	<p>You do not coordinate any subjects.</p>
+}
+else
+{
+	@if (selectedSubject == null)
+	{
+		<p>Please select a subject to manage:</p>
+		@foreach (var subject in subjects)
+		{
+			<p>@subject.Name</p>
+			<button @onclick="() => SelectSubject(subject)">Select</button>
+		}
+	}
+	else
+	{
+		<button @onclick="Back">Back</button>
+		<p>Managing tutors for @selectedSubject.Name</p>
+		@foreach (var tutor in tutors)
+		{
+			<label for="@tutor.Id">@tutor.Name</label>
+			<input id="@tutor.Id" type="checkbox" @bind="tutor.IsTutor"/>
+		}
+		<br />
+		<button @onclick="SaveTutors">Save</button>
+	}
+}

@@ -11,6 +11,11 @@ namespace DegreePlanner.Services.Interfaces
 		List<SubjectViewModel> GetCompletedSubjects(int userId);
 
 		/**
+		 * Gets a list of subjects that the given user coordinates
+		 */
+		List<SubjectViewModel> GetCoordinatedSubjects(int userId);
+
+		/**
 		* Returns a list of all available subjects the user is yet to enrol in with the "planned" bool set accordingly
 		*/
 		List<SubjectViewModel> GetDegreeSubjectsToPlan(int userId);
@@ -24,6 +29,10 @@ namespace DegreePlanner.Services.Interfaces
 		 * Get the list of subjects that the user has planned or enrolled in
 		 */
 		List<SubjectViewModel> GetSubjectsToEnrol(int userId);
+
+		/**
+		 * Returns a list of subjects that the given user tutors or coordinates
+		 */
 		List<SubjectViewModel> GetTeacherSubjects(int userId);
 
 		/**
