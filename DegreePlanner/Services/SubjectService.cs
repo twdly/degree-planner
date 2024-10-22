@@ -7,6 +7,12 @@ namespace DegreePlanner.Services
 {
 	public class SubjectService(DatabaseContext databaseContext) : ISubjectService
 	{
+		public void AddSubject(Subject subject)
+		{
+			databaseContext.Subjects.Add(subject);
+			databaseContext.SaveChanges();
+		}
+
 		public List<SubjectViewModel> GetDegreeSubjectsToPlan(int userId)
 		{
 			var user = databaseContext.Users.Include(x => x.Degree).Include(x => x.Major).FirstOrDefault(x => x.UserId == userId);

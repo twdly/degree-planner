@@ -7,41 +7,10 @@
 	<InputText @bind-Value="Details.Name" class="form-control" placeholder="User Name" />
 	<InputText @bind-Value="Details.Password" class="form-control" placeHolder="User Password" />
 
-	<input type="radio" name="role" @onclick="() => SetUserRole(0)" /> Student<br />
-	<input type="radio" name="role" @onclick="() => SetUserRole(1)" /> Teacher<br />
+	<input type="radio" name="role" @onclick="() => SetUserRole(Data.UserRole.Student)" /> Student<br />
+	<input type="radio" name="role" @onclick="() => SetUserRole(Data.UserRole.Staff)" /> Teacher<br />
 
 	<button type="submit">Create User</button>
 </EditForm>
 
-<p>@testMessage</p>
-
-@code {
-	[SupplyParameterFromForm]
-	public UserDetails Details { get; set; }
-
-	private string testMessage = "";
-	int role = 0;
-
-	void SetUserRole(int Role)
-	{
-		if (Role == 0) role = Role;
-		else role = Role;
-	}
-
-	private async Task CreateUser()
-	{
-		testMessage = "Name: " + Details.Name + " Password: " + Details.Password + " Role: " + role;
-	}
-
-	public class UserDetails
-	{
-		public string? Name { get; set; }
-		public string? Password { get; set; }
-	}
-
-	protected override Task OnInitializedAsync()
-	{
-		Details ??= new();
-		return base.OnInitializedAsync();
-	}
-}
+<p>@resultMessage</p>

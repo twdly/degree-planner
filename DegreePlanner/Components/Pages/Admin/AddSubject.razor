@@ -8,26 +8,4 @@
 	<button type="submit">Create Subject</button>
 </EditForm>
 
-@code {
-	[SupplyParameterFromForm]
-	public SubjectDetails Details { get; set; }
-
-	private string error = "";
-
-	private async Task CreateSubject()
-	{
-		//<p>@Details.Name</p>
-	}
-
-	public class SubjectDetails
-	{
-		public string? Name { get; set; }
-		public string? Code { get; set; }
-	}
-
-	protected override Task OnInitializedAsync()
-	{
-		Details ??= new();
-		return base.OnInitializedAsync();
-	}
-}
+<p>@resultMessage</p>

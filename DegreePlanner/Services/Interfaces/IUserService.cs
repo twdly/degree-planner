@@ -1,9 +1,15 @@
-﻿using DegreePlanner.ViewModels;
+﻿using DegreePlanner.Data;
+using DegreePlanner.ViewModels;
 
 namespace DegreePlanner.Services.Interfaces
 {
     public interface IUserService
     {
+		/**
+		 * Creates a user according to the given user details
+		 */
+		public int AddUser(User user);
+
 		/**
 		 * Gets the user object corresponding to the given ID
 		 */

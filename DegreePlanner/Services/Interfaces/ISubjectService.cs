@@ -4,7 +4,12 @@ using DegreePlanner.ViewModels;
 namespace DegreePlanner.Services.Interfaces
 {
 	public interface ISubjectService
-	{
+	{       
+		/**
+		 * Creates a new subject according to the given subject details 
+		 */
+		public void AddSubject(Subject subject);
+
 		/**
 		 * Gets a list of subjects and marks from subjects with the states passed or failed
 		 */

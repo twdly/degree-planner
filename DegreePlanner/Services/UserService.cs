@@ -7,6 +7,13 @@ namespace DegreePlanner.Services
 {
 	public class UserService(DatabaseContext databaseContext) : IUserService
 	{
+		public int AddUser(User user)
+		{
+			databaseContext.Users.Add(user);
+			databaseContext.SaveChanges();
+			return user.UserId;
+		}
+
 		public UserViewModel GetUserFromId(int userId)
 		{
 			var user = databaseContext.Users.FirstOrDefault(x => x.UserId == userId);
