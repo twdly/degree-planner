@@ -16,8 +16,8 @@ namespace DegreePlanner.Components.Pages.Teacher
 		[Inject]
 		private IUserService UserService { get; set; }
 
-		private List<SubjectViewModel> teacherSubjects { get; set; }
-		private SubjectEnrolmentViewModel subjectEnrolment { get; set; }
+		private List<SubjectViewModel> teacherSubjects;
+		private SubjectEnrolmentViewModel? subjectEnrolment;
 		private int userId;
 
 		protected override async Task OnInitializedAsync()
@@ -31,6 +31,10 @@ namespace DegreePlanner.Components.Pages.Teacher
 		private void SelectSubject(int subjectId)
 		{
 			subjectEnrolment = UserService.GetSubjectEnrolment(subjectId);
+		}
+		private void DeselectSubject()
+		{
+			subjectEnrolment = null;
 		}
 	}
 }

@@ -127,7 +127,7 @@ namespace DegreePlanner.Services
 
 		public List<SubjectViewModel> GetTeacherSubjects(int userId)
 		{
-			var teacherSubjects = databaseContext.UserSubjects.Where(x => x.UserId == userId && x.State == UserSubjectState.Tutor || x.State == UserSubjectState.Coordinator).ToList();
+			var teacherSubjects = databaseContext.UserSubjects.Where(x => x.UserId == userId && (x.State == UserSubjectState.Tutor || x.State == UserSubjectState.Coordinator)).ToList();
 
 			List<SubjectViewModel> subjectViewModels = [];
 			foreach (var subject in teacherSubjects)

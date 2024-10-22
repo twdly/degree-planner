@@ -13,19 +13,27 @@
 		@foreach (var subject in teacherSubjects)
 		{
 			<p>@subject.Name</p>
-			<p>@subject.Type.ToString()</p>
 			<button @onclick="() => SelectSubject(subject.SubjectId)">Select subject</button>
 		}
 	}
 }
 else
 {
+	<button @onclick="DeselectSubject">Back</button>
+	<br/>
 	<h3>Enrolment for @subjectEnrolment.Name</h3>
-	<p>@subjectEnrolment.PlannedCount students are currently planning this subject.</p>
-	<p>Current enrolments:</p>
-	@foreach (var student in subjectEnrolment.Students)
+	<p>@subjectEnrolment.PlannedCount student(s) are currently planning this subject.</p>
+	@if(!subjectEnrolment.Students.Any())
 	{
-		<p>@student.Name</p>
+		<p>No students are currently enrolled in this subject.</p>
+	}
+	else
+	{
+		<p>Current enrolments:</p>
+		@foreach (var student in subjectEnrolment.Students)
+		{
+			<p>@student.Name</p>
+		}
 	}
 }
 
