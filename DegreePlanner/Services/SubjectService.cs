@@ -9,11 +9,12 @@ namespace DegreePlanner.Services
 	{
 		public List<SubjectViewModel> GetDegreeSubjectsToPlan(int userId)
 		{
-			var user = databaseContext.Users.Include(x => x.Degree).FirstOrDefault(x => x.UserId == userId);
+			var user = databaseContext.Users.Include(x => x.Degree).Include(x => x.Major).FirstOrDefault(x => x.UserId == userId);
 
 			var currentEnrolmentIds = GetUserSubjectsWithState(UserSubjectState.Enrolled, userId).Select(x => x.SubjectId).ToList();
 			var plannedSubjectIds = GetUserSubjectsWithState(UserSubjectState.Planned, userId).Select(x => x.SubjectId).ToList();
 			var degreeSubjects = databaseContext.DegreeSubjects.Where(x => x.DegreeId == user.Degree.DegreeId).ToList();
+			var majorSubjects = databaseContext.MajorSubjects.Where(x => x.MajorId == user.Major.MajorId).ToList();
 
 			degreeSubjects.RemoveAll(x => currentEnrolmentIds.Contains(x.SubjectId));
 			List<SubjectViewModel> subjectViewModels = [];
@@ -21,6 +22,13 @@ namespace DegreePlanner.Services
 			{
 				subjectViewModels.Add(new(degreeSubject, GetSubjectNameFromId(degreeSubject.SubjectId), plannedSubjectIds.Contains(degreeSubject.SubjectId)));
 			}
+
+			majorSubjects.RemoveAll(x => currentEnrolmentIds.Contains(x.SubjectId));
+			foreach (var majorSubject in majorSubjects)
+			{
+				subjectViewModels.Add(new(majorSubject, GetSubjectNameFromId(majorSubject.SubjectId), plannedSubjectIds.Contains(majorSubject.SubjectId)));
+			}
+
 			return subjectViewModels;
 		}
 

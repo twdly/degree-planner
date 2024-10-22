@@ -20,8 +20,8 @@ namespace DegreePlanner.Components.Pages.Student
         public List<SubjectViewModel> subjects = [];
         public bool typeSelected = false;
         public UserSubjectState enrolType;
-        public DegreeViewModel degree;
-        public MajorViewModel major;
+        public DegreeViewModel? degree;
+        public MajorViewModel? major;
         public int userId;
         public string message = "";
 

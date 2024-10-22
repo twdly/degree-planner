@@ -22,5 +22,13 @@ namespace DegreePlanner.ViewModels
 			Selected = selected;
 			type = degreeSubject.Type;
 		}
+
+		public SubjectViewModel(MajorSubject majorSubject, string name, bool selected)
+		{
+			SubjectCode = majorSubject.SubjectId;
+			Name = name;
+			Selected = selected;
+			type = DegreeSubjectType.Major;
+		}
 	}
 }
