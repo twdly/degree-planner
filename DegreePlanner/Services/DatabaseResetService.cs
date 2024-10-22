@@ -1,6 +1,5 @@
 ﻿using DegreePlanner.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.InteropServices;
 
 namespace DegreePlanner.Services
 {
@@ -16,6 +15,8 @@ namespace DegreePlanner.Services
 			database.Majors.ExecuteDelete();
 			database.Degrees.ExecuteDelete();
 			database.Subjects.ExecuteDelete();
+
+			database.Database.ExecuteSql($"DBCC CHECKIDENT('Users', RESEED, 10000)");
 
 			// Create subjects
 			Subject prog1 = new()
@@ -104,6 +105,12 @@ namespace DegreePlanner.Services
 			});
 			users.Add(new()
 			{
+				Name = "Avinash",
+				Password = "test",
+				Role = UserRole.Staff
+			});
+			users.Add(new()
+			{
 				Name = "Admin",
 				Password = "test",
 				Role = UserRole.Admin,
@@ -121,6 +128,35 @@ namespace DegreePlanner.Services
 			var degreeSubjects = database.DegreeSubjects.ToList();
 			degreeSubjects[0].Type = DegreeSubjectType.Core;
 			degreeSubjects[1].Type = DegreeSubjectType.Elective;
+			database.SaveChanges();
+
+			int davidId = database.Users.FirstOrDefault(x => x.Name == "David").UserId;
+			int avinashId = database.Users.FirstOrDefault(x => x.Name == "Avinash").UserId;
+
+			int prog2Id = database.Subjects.FirstOrDefault(x => x.Name == prog2.Name).SubjectId;
+			int dotnetId = database.Subjects.FirstOrDefault(x => x.Name == dotnet.Name).SubjectId;
+
+			List<UserSubject> userSubjects = [];
+			userSubjects.Add(new()
+			{
+				SubjectId = prog2Id,
+				UserId = davidId,
+				State = UserSubjectState.Coordinator
+			});
+			userSubjects.Add(new()
+			{
+				SubjectId = dotnetId,
+				UserId = davidId,
+				State = UserSubjectState.Tutor
+			});
+			userSubjects.Add(new()
+			{
+				SubjectId = dotnetId,
+				UserId = avinashId,
+				State = UserSubjectState.Coordinator
+			});
+
+			database.UserSubjects.AddRange(userSubjects);
 			database.SaveChanges();
 		}
 	}

@@ -10,7 +10,7 @@ namespace DegreePlanner.Data
         public int Mark { get; set; }
 
         // No args constructor for EF
-        private UserSubject() { }
+        public UserSubject() { }
 
         // Args constructor for development
         public UserSubject(SubjectViewModel viewModel, int userId, UserSubjectState state)
