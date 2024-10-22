@@ -1,0 +1,33 @@
+﻿@page "/addSubject"
+@rendermode InteractiveServer
+
+<h3>Add Subject</h3>
+<EditForm Model="Details" OnSubmit="CreateSubject" FormName="InputtedTeacherDetails">
+	<InputText @bind-Value="Details.Name" class="form-control" placeholder="Subject Name" />
+	<InputText @bind-Value="Details.Code" class="form-control" placeHolder="Subject Code" />
+	<button type="submit">Create Subject</button>
+</EditForm>
+
+@code {
+	[SupplyParameterFromForm]
+	public SubjectDetails Details { get; set; }
+
+	private string error = "";
+
+	private async Task CreateSubject()
+	{
+		//<p>@Details.Name</p>
+	}
+
+	public class SubjectDetails
+	{
+		public string? Name { get; set; }
+		public string? Code { get; set; }
+	}
+
+	protected override Task OnInitializedAsync()
+	{
+		Details ??= new();
+		return base.OnInitializedAsync();
+	}
+}

@@ -61,7 +61,23 @@
         </AuthorizeView>
         <AuthorizeView Roles="Admin">
             <Authorized>
-                @* Admin links go here *@
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="addStudent">
+                        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Add Student
+                    </NavLink>
+                    <NavLink class="nav-link" href="addTeacher">
+                        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Add Teacher
+                    </NavLink>
+                    <NavLink class="nav-link" href="editUserDetails">
+                        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Edit User
+                    </NavLink>
+                    <NavLink class="nav-link" href="addSubject">
+                        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Add Subject
+                    </NavLink>
+                    <NavLink class="nav-link" href="editSubjectDetails">
+                        <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Edit Subject
+                    </NavLink>
+                </div>
             </Authorized>
         </AuthorizeView>
 
