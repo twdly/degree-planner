@@ -27,16 +27,30 @@ namespace DegreePlanner.Services
 			List<SubjectViewModel> subjectViewModels = [];
 			foreach (var degreeSubject in degreeSubjects)
 			{
-				subjectViewModels.Add(new(degreeSubject, GetSubjectNameFromId(degreeSubject.SubjectId), plannedSubjectIds.Contains(degreeSubject.SubjectId), passedSubjectIds.Contains(degreeSubject.SubjectId)));
+				var name = GetSubjectNameFromId(degreeSubject.SubjectId);
+				var selected = plannedSubjectIds.Contains(degreeSubject.SubjectId);
+				var hasPassed = passedSubjectIds.Contains(degreeSubject.SubjectId);
+
+				subjectViewModels.Add(new(degreeSubject, name, selected, hasPassed));
 			}
 
 			majorSubjects.RemoveAll(x => currentEnrolmentIds.Contains(x.SubjectId));
 			foreach (var majorSubject in majorSubjects)
 			{
-				subjectViewModels.Add(new(majorSubject, GetSubjectNameFromId(majorSubject.SubjectId), plannedSubjectIds.Contains(majorSubject.SubjectId), passedSubjectIds.Contains(majorSubject.SubjectId)));
+				var name = GetSubjectNameFromId(majorSubject.SubjectId);
+				var selected = plannedSubjectIds.Contains(majorSubject.SubjectId);
+				var hasPassed = passedSubjectIds.Contains(majorSubject.SubjectId);
+
+				subjectViewModels.Add(new(majorSubject, name, selected, hasPassed));
 			}
 
 			return subjectViewModels;
+		}
+
+		private List<int> GetPrerequisitesForSubject(int subjectId)
+		{
+			var subject = databaseContext.Subjects.Include(x => x.Prerequisites).FirstOrDefault(x => x.SubjectId == subjectId);
+			return subject.Prerequisites.Select(x => x.SubjectId).ToList();
 		}
 
 		private List<UserSubject> GetUserSubjectsWithState(UserSubjectState state, int userId)
@@ -97,7 +111,8 @@ namespace DegreePlanner.Services
 			List<SubjectViewModel> subjectViewModels = [];
 			foreach (var subject in subjects)
 			{
-				subjectViewModels.Add(new(subject, enrolledSubjectIds.Contains(subject.SubjectId), GetSubjectType(userId, subject.SubjectId)));
+				var prerequisites = GetPrerequisitesForSubject(subject.SubjectId);
+				subjectViewModels.Add(new(subject, enrolledSubjectIds.Contains(subject.SubjectId), GetSubjectType(userId, subject.SubjectId), prerequisites));
 			}
 			return subjectViewModels;
 		}

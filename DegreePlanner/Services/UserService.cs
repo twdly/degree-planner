@@ -82,5 +82,10 @@ namespace DegreePlanner.Services
 			databaseContext.AddRange(dbTutors);
 			await databaseContext.SaveChangesAsync();
 		}
+
+		public List<int> GetCompletedSubjectIds(int userId)
+		{
+			return [.. databaseContext.UserSubjects.Where(x => x.UserId == userId && x.State == UserSubjectState.Passed).Select(x => x.SubjectId)];
+		}
 	}
 }

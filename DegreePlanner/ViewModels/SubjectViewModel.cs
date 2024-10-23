@@ -9,6 +9,7 @@ namespace DegreePlanner.ViewModels
 		public bool Selected = false;
 		public DegreeSubjectType Type;
 		public UserSubjectState State;
+		public List<int> PrerequisiteIds = [];
 		public int Mark = 0;
 
 		public SubjectViewModel(Subject subject)
@@ -25,12 +26,13 @@ namespace DegreePlanner.ViewModels
 			State = userSubject.State;
 		}
 
-		public SubjectViewModel(Subject subject, bool selected, DegreeSubjectType type)
+		public SubjectViewModel(Subject subject, bool selected, DegreeSubjectType type, List<int> prerequisites)
 		{
 			SubjectId = subject.SubjectId;
 			Name = subject.Name!;
 			Selected = selected;
 			Type = type;
+			PrerequisiteIds = prerequisites;
 		}
 
 		public SubjectViewModel(DegreeSubject degreeSubject, string name, bool selected, bool hasPassed)

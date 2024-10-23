@@ -18,6 +18,7 @@ namespace DegreePlanner.Components.Pages.Student
         public ISubjectService SubjectService { get; set; }
 
         public List<SubjectViewModel> subjects = [];
+        public List<int> completedSubjects = [];
         public bool typeSelected = false;
         public UserSubjectState enrolType;
         public DegreeViewModel? degree;
@@ -33,6 +34,7 @@ namespace DegreePlanner.Components.Pages.Student
         public void LoadSubjects()
         {
             typeSelected = true;
+            completedSubjects = UserService.GetCompletedSubjectIds(userId);
 			if (enrolType == UserSubjectState.Planned)
             {
                 subjects = SubjectService.GetDegreeSubjectsToPlan(userId);
@@ -73,6 +75,15 @@ namespace DegreePlanner.Components.Pages.Student
             if (enrolType == UserSubjectState.Planned) return true;
 
             return subjects.Where(x => x.Selected).Count() <= 4;
+        }
+
+        public bool HasIncompletePrerequisites(List<int> prerequisiteIds)
+        {
+            foreach (var prerequisite in prerequisiteIds)
+            {
+                if (!completedSubjects.Contains(prerequisite)) return true;
+            }
+            return false;
         }
 	}
 }

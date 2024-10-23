@@ -39,5 +39,10 @@ namespace DegreePlanner.Services.Interfaces
 		 * Saves the tutor status of staff for the given subject
 		 */
 		void SaveTutorsForSubject(List<TutorViewModel> tutors, int subjectId);
+
+		/**
+		 * Returns a list of subject IDs that the user has passed
+		 */
+		List<int> GetCompletedSubjectIds(int userId);
 	}
 }

@@ -34,6 +34,10 @@ else
 		else
 		{
 			<h3>@GetSubjectTypeTitle()</h3>
+			@if (enrolType == UserSubjectState.Enrolled)
+			{
+				<p>Checkboxes may be disabled if you have not completed all prerequisite subjects</p>
+			}
 			<h4>Core subjects:</h4>
 			@foreach (var subject in subjects.Where(x => x.Type == DegreeSubjectType.Core))
 			{
@@ -44,7 +48,7 @@ else
 				}
 				else
 				{
-					<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected"/>
+					<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected" disabled="@HasIncompletePrerequisites(subject.PrerequisiteIds)"/>
 				}
 				<br />
 			}
@@ -58,7 +62,7 @@ else
 				}
 				else
 				{
-					<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected" />
+					<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected" disabled="@HasIncompletePrerequisites(subject.PrerequisiteIds)" />
 				}
 				<br />
 			}
@@ -72,7 +76,7 @@ else
 				}
 				else
 				{
-					<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected" />
+					<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected" disabled="@HasIncompletePrerequisites(subject.PrerequisiteIds)" />
 				}
 				<br />
 			}
