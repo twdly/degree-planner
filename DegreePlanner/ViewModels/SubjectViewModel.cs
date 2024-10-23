@@ -8,6 +8,7 @@ namespace DegreePlanner.ViewModels
 		public string Name { get; set; }
 		public bool Selected = false;
 		public DegreeSubjectType Type;
+		public UserSubjectState State;
 		public int Mark = 0;
 
 		public SubjectViewModel(Subject subject)
@@ -21,6 +22,7 @@ namespace DegreePlanner.ViewModels
 			SubjectId = userSubject.SubjectId;
 			Name = name;
 			Mark = userSubject.Mark;
+			State = userSubject.State;
 		}
 
 		public SubjectViewModel(Subject subject, bool selected, DegreeSubjectType type)
@@ -31,20 +33,22 @@ namespace DegreePlanner.ViewModels
 			Type = type;
 		}
 
-		public SubjectViewModel(DegreeSubject degreeSubject, string name, bool selected)
+		public SubjectViewModel(DegreeSubject degreeSubject, string name, bool selected, bool hasPassed)
 		{
 			SubjectId = degreeSubject.SubjectId;
 			Name = name;
 			Selected = selected;
 			Type = degreeSubject.Type;
+			State = hasPassed ? UserSubjectState.Passed : UserSubjectState.Failed;
 		}
 
-		public SubjectViewModel(MajorSubject majorSubject, string name, bool selected)
+		public SubjectViewModel(MajorSubject majorSubject, string name, bool selected, bool hasPassed)
 		{
 			SubjectId = majorSubject.SubjectId;
 			Name = name;
 			Selected = selected;
 			Type = DegreeSubjectType.Major;
+			State = hasPassed ? UserSubjectState.Passed : UserSubjectState.Failed;
 		}
 	}
 }

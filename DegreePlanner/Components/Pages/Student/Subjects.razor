@@ -26,6 +26,7 @@ else
 	}
 	else
 	{
+		<button @onclick="Back">Back</button>
 		@if (!subjects.Any())
 		{
 			<p>Loading subjects...</p>
@@ -37,21 +38,42 @@ else
 			@foreach (var subject in subjects.Where(x => x.Type == DegreeSubjectType.Core))
 			{
 				<label>@subject.Name</label>
-				<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected"/>
+				@if (subject.State == UserSubjectState.Passed)
+				{
+					<p>(Completed)</p>
+				}
+				else
+				{
+					<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected"/>
+				}
 				<br />
 			}
 			<h4>Elective subjects:</h4>
 			@foreach (var subject in subjects.Where(x => x.Type == DegreeSubjectType.Elective))
 			{
 				<label>@subject.Name</label>
-				<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected" />
+				@if (subject.State == UserSubjectState.Passed)
+				{
+					<p>(Completed)</p>
+				}
+				else
+				{
+					<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected" />
+				}
 				<br />
 			}
 			<h4>Major subjects:</h4>
 			@foreach (var subject in subjects.Where(x => x.Type == DegreeSubjectType.Major))
 			{
 				<label>@subject.Name</label>
-				<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected" />
+				@if (subject.State == UserSubjectState.Passed)
+				{
+					<p>(Completed)</p>
+				}
+				else
+				{
+					<input type="checkbox" @bind-value="subject.Selected" checked="@subject.Selected" />
+				}
 				<br />
 			}
 			@if (!CanEnrol())

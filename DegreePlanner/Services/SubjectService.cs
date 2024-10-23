@@ -19,6 +19,7 @@ namespace DegreePlanner.Services
 
 			var currentEnrolmentIds = GetUserSubjectsWithState(UserSubjectState.Enrolled, userId).Select(x => x.SubjectId).ToList();
 			var plannedSubjectIds = GetUserSubjectsWithState(UserSubjectState.Planned, userId).Select(x => x.SubjectId).ToList();
+			var passedSubjectIds = GetUserSubjectsWithState(UserSubjectState.Passed, userId).Select(x => x.SubjectId).ToList();
 			var degreeSubjects = databaseContext.DegreeSubjects.Where(x => x.DegreeId == user.Degree.DegreeId).ToList();
 			var majorSubjects = databaseContext.MajorSubjects.Where(x => x.MajorId == user.Major.MajorId).ToList();
 
@@ -26,13 +27,13 @@ namespace DegreePlanner.Services
 			List<SubjectViewModel> subjectViewModels = [];
 			foreach (var degreeSubject in degreeSubjects)
 			{
-				subjectViewModels.Add(new(degreeSubject, GetSubjectNameFromId(degreeSubject.SubjectId), plannedSubjectIds.Contains(degreeSubject.SubjectId)));
+				subjectViewModels.Add(new(degreeSubject, GetSubjectNameFromId(degreeSubject.SubjectId), plannedSubjectIds.Contains(degreeSubject.SubjectId), passedSubjectIds.Contains(degreeSubject.SubjectId)));
 			}
 
 			majorSubjects.RemoveAll(x => currentEnrolmentIds.Contains(x.SubjectId));
 			foreach (var majorSubject in majorSubjects)
 			{
-				subjectViewModels.Add(new(majorSubject, GetSubjectNameFromId(majorSubject.SubjectId), plannedSubjectIds.Contains(majorSubject.SubjectId)));
+				subjectViewModels.Add(new(majorSubject, GetSubjectNameFromId(majorSubject.SubjectId), plannedSubjectIds.Contains(majorSubject.SubjectId), passedSubjectIds.Contains(majorSubject.SubjectId)));
 			}
 
 			return subjectViewModels;
@@ -51,16 +52,21 @@ namespace DegreePlanner.Services
 		public async void UpdateSubjects(List<SubjectViewModel> subjectViewModels, UserSubjectState state, int userId)
 		{
 			// Clear existing enrolments with selected state
-			var currentUserSubjects = databaseContext.UserSubjects.Where(x => x.UserId == userId && x.State == state);
+			var currentUserSubjects = databaseContext.UserSubjects.Where(x => x.UserId == userId && (x.State == state));
 			databaseContext.UserSubjects.RemoveRange(currentUserSubjects);
 
 			// If the user is enrolling in subjects, we need to also remove planned subjects that are being enrolled in
 			// This prevents duplicate primary keys from being left in the UserSubjects table
+			var viewModelIds = subjectViewModels.Select(x => x.SubjectId).ToList();
 			if (state == UserSubjectState.Enrolled)
 			{
-				var viewModelIds = subjectViewModels.Select(x => x.SubjectId).ToList();
 				var enrolledSubjects = databaseContext.UserSubjects.Where(x => x.UserId == userId && x.State == UserSubjectState.Planned && viewModelIds.Contains(x.SubjectId));
 				databaseContext.UserSubjects.RemoveRange(enrolledSubjects);
+			}
+			else if (state == UserSubjectState.Planned)
+			{
+				var failedSubjects = databaseContext.UserSubjects.Where(x => x.UserId == userId && x.State == UserSubjectState.Failed && viewModelIds.Contains(x.SubjectId));
+				databaseContext.UserSubjects.RemoveRange(failedSubjects); // Users need to be able to re-enrol in subjects that they have previously failed
 			}
 			await databaseContext.SaveChangesAsync();
 
@@ -168,7 +174,7 @@ namespace DegreePlanner.Services
 			List<UserSubject> userSubjects = [];
 			foreach (var studentResult in updatedStudents)
 			{
-				userSubjects.Add(new(studentResult.Id, subjectId, (studentResult.Mark > 50 ? UserSubjectState.Passed : UserSubjectState.Failed), studentResult.Mark));
+				userSubjects.Add(new(studentResult.Id, subjectId, (studentResult.Mark >= 50 ? UserSubjectState.Passed : UserSubjectState.Failed), studentResult.Mark));
 			}
 
 			databaseContext.AddRange(userSubjects);

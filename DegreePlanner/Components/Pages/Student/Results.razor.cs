@@ -49,5 +49,10 @@ namespace DegreePlanner.Components.Pages.Student
 			if (value < 0) value = 0;
 			else if (value > 100) value = 100;
 		}
+
+		private static string GetResultCss(bool isFail)
+		{
+			return isFail ? "color:red" : "color:green";
+		}
 	}
 }

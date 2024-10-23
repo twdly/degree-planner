@@ -43,10 +43,16 @@ namespace DegreePlanner.Components.Pages.Student
             }
         }
 
-        public async void UpdateSubjects()
+        public void Back()
+        {
+            typeSelected = false;
+        }
+
+        public void UpdateSubjects()
         {
             SubjectService.UpdateSubjects(subjects, enrolType, userId);
             message = "Subjects have been updated!";
+            Back();
         }
 
 		protected override async Task OnInitializedAsync()

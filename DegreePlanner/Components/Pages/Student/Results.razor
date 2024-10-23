@@ -15,8 +15,7 @@ else
 {
 	@foreach (var subject in completedSubjects)
 	{
-		<p>@subject.Name</p>
-		<p>@subject.Mark</p>
+		<p style="@GetResultCss(subject.State == Data.UserSubjectState.Failed)">@(subject.Name): @(subject.Mark)</p>
 	}
 }
 
