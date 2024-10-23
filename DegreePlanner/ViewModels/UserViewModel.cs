@@ -6,5 +6,6 @@ namespace DegreePlanner.ViewModels
 	{
 		public int Id { get; set; } = user.UserId;
 		public string Name { get; set; } = user.Name;
+		public int Mark { get; set; }
 	}
 }

@@ -1,7 +1,43 @@
 ﻿@page "/results"
+@rendermode InteractiveServer
 
 <h3>Results</h3>
-
-@code {
-
+<p>@message</p>
+@if (selectedSubjectName == string.Empty)
+{
+	@if (!subjects.Any())
+	{
+		<p>You do not have any subjects to give out results.</p>
+	}
+	else
+	{
+		<p>Please select a subject</p>
+		<InputSelect @bind-Value="selectedSubjectId">
+			@foreach (var subject in subjects)
+			{
+				<option value="@subject.SubjectId">@subject.Name</option>
+			}
+		</InputSelect>
+		<button @onclick="SelectSubject">Select</button>
+	}
 }
+else
+{
+	<button @onclick="DeselectSubject">Back</button>
+	<h4>Results for @selectedSubjectName:</h4>
+	@if (!students.Any())
+	{
+		<p>Result allocations completed!</p>
+	}
+	else
+	{
+		@foreach (var student in students)
+		{
+			<label for="@student.Id" style="padding-right:5px">@student.Name: </label>
+			<input type="number" id="@student.Id" @bind="student.Mark" />
+		}
+		<br />
+		<button @onclick="SaveResults">Save</button>
+	}
+}
+

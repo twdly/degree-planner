@@ -31,6 +31,11 @@ namespace DegreePlanner.Services.Interfaces
 		List<SubjectViewModel> GetPredictionSubjects(int userId);
 
 		/**
+		 * Returns the name of the subject with the given ID
+		 */
+		string GetSubjectNameFromId(int subjectId);
+
+		/**
 		 * Get the list of subjects that the user has planned or enrolled in
 		 */
 		List<SubjectViewModel> GetSubjectsToEnrol(int userId);
@@ -44,5 +49,10 @@ namespace DegreePlanner.Services.Interfaces
 		 * Update the user state for each of the provided subjects
 		 */
 		void UpdateSubjects(List<SubjectViewModel> subjectViewModels, UserSubjectState state, int userId);
+
+		/**
+		 * Update the results of the provided students in the given subject
+		 */
+		void UpdateUserResultsForSubject(List<UserViewModel> updatedStudents, int subjectId);
 	}
 }

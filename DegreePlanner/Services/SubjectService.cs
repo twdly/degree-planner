@@ -43,7 +43,7 @@ namespace DegreePlanner.Services
 			return [.. databaseContext.UserSubjects.Where(x => x.UserId == userId && x.State == state)];
 		}
 
-		private string GetSubjectNameFromId(int subjectId)
+		public string GetSubjectNameFromId(int subjectId)
 		{
 			return databaseContext.Subjects.Where(x => x.SubjectId == subjectId).Select(x => x.Name).SingleOrDefault();
 		}
@@ -155,6 +155,24 @@ namespace DegreePlanner.Services
 			}
 
 			return subjectViewModels;
+		}
+
+		public async void UpdateUserResultsForSubject(List<UserViewModel> updatedStudents, int subjectId)
+		{
+			// Remove enrolment details from the database
+			var userIds = updatedStudents.Select(x => x.Id).ToList();
+			var oldUserSubjects = databaseContext.UserSubjects.Where(x => userIds.Contains(x.UserId) && x.SubjectId == subjectId).ToList();
+			databaseContext.UserSubjects.RemoveRange(oldUserSubjects);
+
+			// Add results to the database
+			List<UserSubject> userSubjects = [];
+			foreach (var studentResult in updatedStudents)
+			{
+				userSubjects.Add(new(studentResult.Id, subjectId, (studentResult.Mark > 50 ? UserSubjectState.Passed : UserSubjectState.Failed), studentResult.Mark));
+			}
+
+			databaseContext.AddRange(userSubjects);
+			await databaseContext.SaveChangesAsync();
 		}
 	}
 }

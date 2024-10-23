@@ -27,5 +27,13 @@ namespace DegreePlanner.Data
             SubjectId = subjectId;
             State = UserSubjectState.Tutor;
         }
+
+        public UserSubject(int userId, int subjectId, UserSubjectState state, int mark)
+        {
+            UserId = userId;
+            SubjectId = subjectId;
+            State = state;
+            Mark = mark;
+        }
     }
 }
