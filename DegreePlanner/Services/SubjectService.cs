@@ -71,15 +71,15 @@ namespace DegreePlanner.Services
 
 			// If the user is enrolling in subjects, we need to also remove planned subjects that are being enrolled in
 			// This prevents duplicate primary keys from being left in the UserSubjects table
-			var viewModelIds = subjectViewModels.Select(x => x.SubjectId).ToList();
+			var updatedIds = subjectViewModels.Where(x => x.Selected != x.InitiallySelected).Select(x => x.SubjectId).ToList(); // Find all subjects that have been updated
 			if (state == UserSubjectState.Enrolled)
 			{
-				var enrolledSubjects = databaseContext.UserSubjects.Where(x => x.UserId == userId && x.State == UserSubjectState.Planned && viewModelIds.Contains(x.SubjectId));
+				var enrolledSubjects = databaseContext.UserSubjects.Where(x => x.UserId == userId && x.State == UserSubjectState.Planned && updatedIds.Contains(x.SubjectId));
 				databaseContext.UserSubjects.RemoveRange(enrolledSubjects);
 			}
 			else if (state == UserSubjectState.Planned)
 			{
-				var failedSubjects = databaseContext.UserSubjects.Where(x => x.UserId == userId && x.State == UserSubjectState.Failed && viewModelIds.Contains(x.SubjectId));
+				var failedSubjects = databaseContext.UserSubjects.Where(x => x.UserId == userId && x.State == UserSubjectState.Failed && updatedIds.Contains(x.SubjectId));
 				databaseContext.UserSubjects.RemoveRange(failedSubjects); // Users need to be able to re-enrol in subjects that they have previously failed
 			}
 			await databaseContext.SaveChangesAsync();
@@ -91,6 +91,10 @@ namespace DegreePlanner.Services
 				if (viewModel.Selected)
 				{
 					enrolments.Add(new(viewModel, userId, state));
+				}
+				else if (updatedIds.Contains(viewModel.SubjectId) && state == UserSubjectState.Enrolled)
+				{
+					enrolments.Add(new(viewModel, userId, UserSubjectState.Planned)); // Ensure that subjects don't become unplanned after unenrolling
 				}
 			}
 			databaseContext.UserSubjects.AddRange(enrolments);

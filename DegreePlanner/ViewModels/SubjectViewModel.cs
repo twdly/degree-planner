@@ -6,7 +6,8 @@ namespace DegreePlanner.ViewModels
 	{
 		public int SubjectId { get; set; }
 		public string Name { get; set; }
-		public bool Selected = false;
+		public bool Selected = false; // This selected is used to bind to the checkbox state when enrolling/planning
+		public bool InitiallySelected = false; // This selected is used to check if the state of Selected has changed when planning/enrolling
 		public DegreeSubjectType Type;
 		public UserSubjectState State;
 		public List<int> PrerequisiteIds = [];
@@ -31,6 +32,7 @@ namespace DegreePlanner.ViewModels
 			SubjectId = subject.SubjectId;
 			Name = subject.Name!;
 			Selected = selected;
+			InitiallySelected = selected;
 			Type = type;
 			PrerequisiteIds = prerequisites;
 		}
@@ -40,6 +42,7 @@ namespace DegreePlanner.ViewModels
 			SubjectId = degreeSubject.SubjectId;
 			Name = name;
 			Selected = selected;
+			InitiallySelected = selected;
 			Type = degreeSubject.Type;
 			State = hasPassed ? UserSubjectState.Passed : UserSubjectState.Failed;
 		}
@@ -49,6 +52,7 @@ namespace DegreePlanner.ViewModels
 			SubjectId = majorSubject.SubjectId;
 			Name = name;
 			Selected = selected;
+			InitiallySelected = selected;
 			Type = DegreeSubjectType.Major;
 			State = hasPassed ? UserSubjectState.Passed : UserSubjectState.Failed;
 		}
