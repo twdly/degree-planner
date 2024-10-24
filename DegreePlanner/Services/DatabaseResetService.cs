@@ -121,6 +121,13 @@ public class DatabaseResetService(DatabaseContext database)
 		[
 			new User
 			{
+				Name = "Matthew",
+				Password = "test",
+				Role = UserRole.Student
+			},
+			
+			new User
+			{
 				Name = "Tai",
 				Password = "test",
 				Role = UserRole.Student,
@@ -167,29 +174,40 @@ public class DatabaseResetService(DatabaseContext database)
 		var davidId = database.Users.FirstOrDefault(x => x.Name == "David").UserId;
 		var avinashId = database.Users.FirstOrDefault(x => x.Name == "Avinash").UserId;
 
-		var prog2Id = database.Subjects.FirstOrDefault(x => x.Name == prog2.Name).SubjectId;
-		var dotnetId = database.Subjects.FirstOrDefault(x => x.Name == dotnet.Name).SubjectId;
-
 		List<UserSubject> userSubjects =
 		[
 			new UserSubject
 			{
-				SubjectId = prog2Id,
+				SubjectId = prog2.SubjectId,
 				UserId = davidId,
 				State = UserSubjectState.Coordinator
 			},
 
 			new UserSubject
 			{
-				SubjectId = dotnetId,
+				SubjectId = dotnet.SubjectId,
 				UserId = davidId,
 				State = UserSubjectState.Tutor
 			},
 
 			new UserSubject
 			{
-				SubjectId = dotnetId,
+				SubjectId = dotnet.SubjectId,
 				UserId = avinashId,
+				State = UserSubjectState.Coordinator
+			},
+			
+			new UserSubject
+			{
+				SubjectId = prog1.SubjectId,
+				UserId = davidId,
+				State = UserSubjectState.Coordinator
+			},
+			
+			new UserSubject
+			{
+				SubjectId = ios.SubjectId,
+				UserId = davidId,
 				State = UserSubjectState.Coordinator
 			}
 

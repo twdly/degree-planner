@@ -12,6 +12,8 @@ public class UserServiceTest
 	private UserService userService;
 	private DatabaseResetService databaseResetService;
 
+	private const int taiId = 10005;
+
 	[SetUp]
 	public void SetUp()
 	{
@@ -28,22 +30,22 @@ public class UserServiceTest
 	[Test]
 	public void TestGetUserFromId()
 	{
-		var user = userService.GetUserFromId(10004);
-		Assert.That(user.Id, Is.EqualTo(10004));
+		var user = userService.GetUserFromId(taiId);
+		Assert.That(user.Id, Is.EqualTo(taiId));
 		Assert.That(user.Name, Is.EqualTo("Tai"));
 	}
 
 	[Test]
 	public void TestGetUserMajor()
 	{
-		var major = userService.GetUserMajor(10004);
+		var major = userService.GetUserMajor(taiId);
 		Assert.That(major.Name, Is.EqualTo("Enterprise Software Development"));
 	}
 
 	[Test]
 	public void TestGetUserDegree()
 	{
-		var degree = userService.GetDegreeForUser(10004);
+		var degree = userService.GetDegreeForUser(taiId);
 		Assert.That(degree.Name, Is.EqualTo("Bachelor of Information Technology"));
 	}
 
