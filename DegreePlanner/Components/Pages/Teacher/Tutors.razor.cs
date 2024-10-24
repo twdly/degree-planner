@@ -20,6 +20,7 @@ namespace DegreePlanner.Components.Pages.Teacher
 		private List<TutorViewModel> tutors;
 		private SubjectViewModel? selectedSubject;
 		private int userId;
+		private string message = "";
 
 		protected override async Task OnInitializedAsync()
 		{
@@ -33,11 +34,14 @@ namespace DegreePlanner.Components.Pages.Teacher
 		{
 			tutors = UserService.GetTutorsForSubject(userId, subject.SubjectId);
 			selectedSubject = subject;
+			message = "";
 		}
 
 		private void SaveTutors()
 		{
 			UserService.SaveTutorsForSubject(tutors, selectedSubject!.SubjectId);
+			message = "Tutors have been saved successfully";
+			Back();
 		}
 
 		private void Back()
