@@ -2,6 +2,7 @@
 using DegreePlanner.Services.Interfaces;
 using DegreePlanner.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DegreePlanner.Services
 {
@@ -92,7 +93,7 @@ namespace DegreePlanner.Services
 				{
 					enrolments.Add(new(viewModel, userId, state));
 				}
-				else if (updatedIds.Contains(viewModel.SubjectId) && state == UserSubjectState.Enrolled)
+				else if (state == UserSubjectState.Enrolled && updatedIds.Contains(viewModel.SubjectId))
 				{
 					enrolments.Add(new(viewModel, userId, UserSubjectState.Planned)); // Ensure that subjects don't become unplanned after unenrolling
 				}

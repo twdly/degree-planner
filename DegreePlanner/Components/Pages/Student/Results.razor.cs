@@ -30,7 +30,7 @@ namespace DegreePlanner.Components.Pages.Student
 		{
 			int totalMarks = completedSubjects.Sum(x => x.Mark);
 			if (completedSubjects.Count == 0) return 0;
-			return (double)totalMarks / completedSubjects.Count;
+			return Math.Round((double)totalMarks / completedSubjects.Count, 2);
 		}
 
 		private double GetPredictedWam()
@@ -41,7 +41,7 @@ namespace DegreePlanner.Components.Pages.Student
 			totalMarks += completedSubjects.Sum(x => x.Mark); // Completed subjects should still be counted in the prediction WAM
 			int totalSubjects = predictedSubjects.Count + completedSubjects.Count;
 			if (totalSubjects == 0) return 0;
-			return (double)totalMarks / totalSubjects;
+			return Math.Round((double)totalMarks / totalSubjects, 2);
 		}
 
 		private static void ValidateMarks(ref int value)
