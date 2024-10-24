@@ -14,3 +14,24 @@ This project uses an MSSQL localDB that needs to be configured prior to use by s
 9. Open appsettings.json and paste the connection string into the SQLDBConnection property
 
 After configuring the database, its values can be reset at any time using the database reset page found at https://localhost:7231/database.
+
+## Sample Users
+The sample database contains 5 sample users with different properties. All sample users have the password "test"
+- 10001
+    - Matthew
+    - Student
+    - No enrolments
+- 10002
+    - David
+    - Staff
+    - Coordinates and tutors numerous programming subjects
+- 10003
+    - Avinash
+    - Staff
+    - Coordinates Application Development with .NET
+- 10004 
+    - Admin account
+- 10005
+    - Tai
+    - Student
+    - Enrolled in Bachelor of Information Technology with a major in Enterprise Systems Development
