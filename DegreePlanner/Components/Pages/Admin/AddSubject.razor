@@ -1,5 +1,7 @@
 ﻿@page "/addSubject"
 @rendermode InteractiveServer
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Admin")]
 
 <h3>Add Subject</h3>
 <EditForm Model="Details" OnSubmit="CreateSubject" FormName="InputtedTeacherDetails">

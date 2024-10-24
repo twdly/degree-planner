@@ -1,5 +1,7 @@
 ﻿@page "/editUserDetails"
 @rendermode InteractiveServer
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Admin")]
 
 <h3>Edit User Details</h3>
 

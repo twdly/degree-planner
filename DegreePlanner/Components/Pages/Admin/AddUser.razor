@@ -1,6 +1,8 @@
 ﻿@page "/addUser"
 @using Microsoft.AspNetCore.Mvc
 @rendermode InteractiveServer
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Admin")]
 
 <h3>Add User</h3>
 <EditForm Model="Details" OnSubmit="CreateUser" FormName="InputtedUserDetails">

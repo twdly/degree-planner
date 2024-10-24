@@ -1,5 +1,7 @@
 ﻿@page "/subjects"
 @rendermode InteractiveServer
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Staff")]
 
 @if (subjectEnrolment == null)
 {

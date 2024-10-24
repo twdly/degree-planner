@@ -1,5 +1,7 @@
 ﻿@page "/my-results"
+@using Microsoft.AspNetCore.Authorization
 @rendermode InteractiveServer
+@attribute [Authorize (Roles = "Student")]
 
 <h3>My Results</h3>
 

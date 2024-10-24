@@ -1,5 +1,7 @@
 ﻿@page "/tutors"
 @rendermode InteractiveServer
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Staff")]
 
 <h3>Manage Tutors</h3>
 @if (!subjects.Any())
