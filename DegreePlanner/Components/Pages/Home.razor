@@ -21,7 +21,7 @@
 	[Inject]
 	private IUserService userService { get; set; }
 
-	public async Task<string> GetUserName()
+	private async Task<string> GetUserName()
 	{
 		var authState = await authenticationState;
 		return userService.GetUserFromId(int.Parse(authState.User.Identity.Name)).Name;

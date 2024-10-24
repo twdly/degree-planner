@@ -9,9 +9,9 @@
 @code {
 	[Inject]
 	DatabaseResetService databaseResetService { get; set; }
-	public string message = "";
+	private string message = "";
 
-	public void ResetDatabase()
+	private void ResetDatabase()
 	{
 		databaseResetService.ResetDatabase();
 		message = "Database has been reset!";

@@ -1,23 +1,21 @@
 ﻿using DegreePlanner.Data;
-using System.Net;
 
-namespace DegreePlanner.ViewModels
+namespace DegreePlanner.ViewModels;
+
+public class DegreeViewModel
 {
-	public class DegreeViewModel
-	{
-		public int Id { get; set; }
-		public string Name { get; set; }
-		public List<SubjectViewModel> Subjects { get; set; }
+	public int Id { get; set; }
+	public string Name { get; set; }
+	public List<SubjectViewModel> Subjects { get; set; }
 
-		public DegreeViewModel(Degree degree)
+	public DegreeViewModel(Degree degree)
+	{
+		Id = degree.DegreeId;
+		Name = degree.Name!;
+		Subjects = [];
+		foreach (var subject in degree.Subjects!)
 		{
-			Id = degree.DegreeId;
-			Name = degree.Name!;
-			Subjects = [];
-			foreach (var subject in degree.Subjects!)
-			{
-				Subjects.Add(new(subject));
-			}
+			Subjects.Add(new SubjectViewModel(subject));
 		}
 	}
 }

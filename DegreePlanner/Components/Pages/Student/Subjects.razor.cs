@@ -4,86 +4,74 @@ using DegreePlanner.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace DegreePlanner.Components.Pages.Student
+namespace DegreePlanner.Components.Pages.Student;
+
+public partial class Subjects
 {
-    public partial class Subjects
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthenticationState { get; set; }
+
+    [Inject]
+    public IUserService UserService { get; set; }
+
+    [Inject]
+    public ISubjectService SubjectService { get; set; }
+
+    private List<SubjectViewModel> subjects = [];
+    private List<int> completedSubjects = [];
+    private bool typeSelected;
+    private UserSubjectState enrolType;
+    private DegreeViewModel? degree;
+    private MajorViewModel? major;
+    private int userId;
+    private string message = "";
+
+    private void SetEnrolType(UserSubjectState type)
     {
-        [CascadingParameter]
-        private Task<AuthenticationState> AuthenticationState { get; set; }
+        enrolType = type;
+    }
 
-        [Inject]
-        public IUserService UserService { get; set; }
+    private void LoadSubjects()
+    {
+        typeSelected = true;
+        completedSubjects = UserService.GetCompletedSubjectIds(userId);
+        subjects = enrolType == UserSubjectState.Planned ? SubjectService.GetDegreeSubjectsToPlan(userId) : SubjectService.GetSubjectsToEnrol(userId);
+    }
 
-        [Inject]
-        public ISubjectService SubjectService { get; set; }
+    private void Back()
+    {
+        typeSelected = false;
+    }
 
-        public List<SubjectViewModel> subjects = [];
-        public List<int> completedSubjects = [];
-        public bool typeSelected = false;
-        public UserSubjectState enrolType;
-        public DegreeViewModel? degree;
-        public MajorViewModel? major;
-        public int userId;
-        public string message = "";
+    private void UpdateSubjects()
+    {
+        SubjectService.UpdateSubjects(subjects, enrolType, userId);
+        message = "Subjects have been updated!";
+        Back();
+    }
 
-        public void SetEnrolType(UserSubjectState type)
-        {
-            enrolType = type;
-        }
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationState;
+        userId = int.Parse(authState.User.Identity.Name);
+        degree = UserService.GetDegreeForUser(userId);
+        major = UserService.GetUserMajor(userId);
+    }
 
-        public void LoadSubjects()
-        {
-            typeSelected = true;
-            completedSubjects = UserService.GetCompletedSubjectIds(userId);
-			if (enrolType == UserSubjectState.Planned)
-            {
-                subjects = SubjectService.GetDegreeSubjectsToPlan(userId);
-            }
-            else
-            {
-                subjects = SubjectService.GetSubjectsToEnrol(userId);
-            }
-        }
+    private string GetSubjectTypeTitle()
+    {
+        return enrolType == UserSubjectState.Planned ? "Planning Subjects" : "Enrolling in Subjects";
+    }
 
-        public void Back()
-        {
-            typeSelected = false;
-        }
+    private bool CanEnrol()
+    {
+        if (enrolType == UserSubjectState.Planned) return true;
 
-        public void UpdateSubjects()
-        {
-            SubjectService.UpdateSubjects(subjects, enrolType, userId);
-            message = "Subjects have been updated!";
-            Back();
-        }
+        return subjects.Where(x => x.Selected).Count() <= 4;
+    }
 
-		protected override async Task OnInitializedAsync()
-		{
-            var authState = await AuthenticationState;
-            userId = int.Parse(authState.User.Identity.Name);
-            degree = UserService.GetDegreeForUser(userId);
-            major = UserService.GetUserMajor(userId);
-		}
-
-        public string GetSubjectTypeTitle()
-        {
-            return enrolType == UserSubjectState.Planned ? "Planning Subjects" : "Enrolling in Subjects";
-        }
-
-        public bool CanEnrol()
-        {
-            if (enrolType == UserSubjectState.Planned) return true;
-
-            return subjects.Where(x => x.Selected).Count() <= 4;
-        }
-
-        public bool HasIncompletePrerequisites(List<int> prerequisiteIds)
-        {
-            foreach (var prerequisite in prerequisiteIds)
-            {
-                if (!completedSubjects.Contains(prerequisite)) return true;
-            }
-            return false;
-        }
-	}
+    private bool HasIncompletePrerequisites(List<int> prerequisiteIds)
+    {
+        return prerequisiteIds.Any(prerequisite => !completedSubjects.Contains(prerequisite));
+    }
 }

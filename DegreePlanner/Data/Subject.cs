@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace DegreePlanner.Data
+﻿namespace DegreePlanner.Data
 {
     public class Subject
     {

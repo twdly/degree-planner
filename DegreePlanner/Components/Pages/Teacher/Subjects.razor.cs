@@ -3,38 +3,37 @@ using DegreePlanner.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace DegreePlanner.Components.Pages.Teacher
+namespace DegreePlanner.Components.Pages.Teacher;
+
+public partial class Subjects
 {
-	public partial class Subjects
+	[CascadingParameter]
+	private Task<AuthenticationState> AuthenticationState { get; set; }
+
+	[Inject]
+	private ISubjectService SubjectService { get; set; }
+
+	[Inject]
+	private IUserService UserService { get; set; }
+
+	private List<SubjectViewModel> teacherSubjects;
+	private SubjectEnrolmentViewModel? subjectEnrolment;
+	private int userId;
+
+	protected override async Task OnInitializedAsync()
 	{
-		[CascadingParameter]
-		private Task<AuthenticationState> AuthenticationState { get; set; }
+		var authState = await AuthenticationState;
+		userId = int.Parse(authState.User.Identity.Name);
 
-		[Inject]
-		private ISubjectService SubjectService { get; set; }
+		teacherSubjects = SubjectService.GetTeacherSubjects(userId);
+	}
 
-		[Inject]
-		private IUserService UserService { get; set; }
-
-		private List<SubjectViewModel> teacherSubjects;
-		private SubjectEnrolmentViewModel? subjectEnrolment;
-		private int userId;
-
-		protected override async Task OnInitializedAsync()
-		{
-			var authState = await AuthenticationState;
-			userId = int.Parse(authState.User.Identity.Name);
-
-			teacherSubjects = SubjectService.GetTeacherSubjects(userId);
-		}
-
-		private void SelectSubject(int subjectId)
-		{
-			subjectEnrolment = UserService.GetSubjectEnrolment(subjectId);
-		}
-		private void DeselectSubject()
-		{
-			subjectEnrolment = null;
-		}
+	private void SelectSubject(int subjectId)
+	{
+		subjectEnrolment = UserService.GetSubjectEnrolment(subjectId);
+	}
+	private void DeselectSubject()
+	{
+		subjectEnrolment = null;
 	}
 }

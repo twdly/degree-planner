@@ -5,7 +5,7 @@
 
 <h3>My Degree</h3>
 <p style="color:red">@enrolMessage</p>
-@if (degree == null)
+@if (degreeViewModel == null)
 {
 	<p>You have not yet enrolled in a degree. Please select one now:</p>
 	<fieldset>
@@ -28,9 +28,9 @@
 }
 else
 {
-	<p>You are currently enrolled in @degree.Name</p>
+	<p>You are currently enrolled in @degreeViewModel.Name</p>
 	<h4>Available subjects:</h4>
-	@foreach (var subject in degree.Subjects)
+	@foreach (var subject in degreeViewModel.Subjects)
 	{
 		<p>(@subject.SubjectId) - @subject.Name</p>
 	}

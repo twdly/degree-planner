@@ -3,47 +3,46 @@ using DegreePlanner.Services.Interfaces;
 using DegreePlanner.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace DegreePlanner.Services
+namespace DegreePlanner.Services;
+
+public class DegreeService(DatabaseContext databaseContext) : IDegreeService
 {
-	public class DegreeService(DatabaseContext databaseContext) : IDegreeService
+	public void EnrolInDegree(int userId, int degreeId)
 	{
-		public void EnrolInDegree(int userId, int degreeId)
-		{
-			var user = databaseContext.Users.FirstOrDefault(x => x.UserId == userId);
-			var degree = databaseContext.Degrees.FirstOrDefault(x => x.DegreeId == degreeId);
-			user.Degree = degree;
-			databaseContext.SaveChanges();
-		}
+		var user = databaseContext.Users.FirstOrDefault(x => x.UserId == userId);
+		var degree = databaseContext.Degrees.FirstOrDefault(x => x.DegreeId == degreeId);
+		user.Degree = degree;
+		databaseContext.SaveChanges();
+	}
 
-		public void EnrolInMajor(int userId, int majorId)
-		{
-			var user = databaseContext.Users.FirstOrDefault(x => x.UserId == userId);
-			var major = databaseContext.Majors.FirstOrDefault(x => x.MajorId == majorId);
-			user.Major = major;
-			databaseContext.SaveChanges();
-		}
+	public void EnrolInMajor(int userId, int majorId)
+	{
+		var user = databaseContext.Users.FirstOrDefault(x => x.UserId == userId);
+		var major = databaseContext.Majors.FirstOrDefault(x => x.MajorId == majorId);
+		user.Major = major;
+		databaseContext.SaveChanges();
+	}
 
-		public List<DegreeViewModel> GetAllDegrees()
+	public List<DegreeViewModel> GetAllDegrees()
+	{
+		var degrees = databaseContext.Degrees.Include(x => x.Subjects).Include(x => x.Majors).ToList();
+		List<DegreeViewModel> viewModels = [];
+		foreach (var degree in degrees)
 		{
-			var degrees = databaseContext.Degrees.Include(x => x.Subjects).Include(x => x.Majors).ToList();
-			List<DegreeViewModel> viewModels = [];
-			foreach (var degree in degrees)
-			{
-				viewModels.Add(new(degree));
-			}
-			return viewModels;
+			viewModels.Add(new DegreeViewModel(degree));
 		}
+		return viewModels;
+	}
 
-		public List<MajorViewModel> GetMajorsForDegree(DegreeViewModel degree)
+	public List<MajorViewModel> GetMajorsForDegree(DegreeViewModel degree)
+	{
+		var queriedDegree = databaseContext.Degrees.Include(x => x.Majors).ThenInclude(x => x.Subjects).FirstOrDefault(x => x.DegreeId == degree.Id);
+		var majors = queriedDegree.Majors;
+		List<MajorViewModel> viewModels = [];
+		foreach (var major in majors)
 		{
-			var queriedDegree = databaseContext.Degrees.Include(x => x.Majors).ThenInclude(x => x.Subjects).FirstOrDefault(x => x.DegreeId == degree.Id);
-			var majors = queriedDegree.Majors;
-			List<MajorViewModel> viewModels = [];
-			foreach (var major in majors)
-			{
-				viewModels.Add(new(major));
-			}
-			return viewModels;
+			viewModels.Add(new MajorViewModel(major));
 		}
+		return viewModels;
 	}
 }
