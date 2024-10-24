@@ -7,7 +7,7 @@
 	<InputText @bind-Value="Details.Name" class="form-control" placeholder="User Name" />
 	<InputText @bind-Value="Details.Password" class="form-control" placeHolder="User Password" />
 
-	<input type="radio" name="role" @onclick="() => SetUserRole(Data.UserRole.Student)" /> Student<br />
+	<input type="radio" name="role" @onclick="() => SetUserRole(Data.UserRole.Student)" /> Student
 	<input type="radio" name="role" @onclick="() => SetUserRole(Data.UserRole.Staff)" /> Teacher<br />
 
 	<button type="submit">Create User</button>

@@ -3,6 +3,34 @@
 
 <h3>Edit User Details</h3>
 
-@code {
-
+@if (selectedUser == null)
+{
+	@if (!allUsers.Any())
+	{
+		<p>There are no users</p>
+	}
+	else
+	{
+		@foreach (var user in allUsers)
+		{
+			<p>@user.Name @user.Id, @user.Role</p>
+			<button @onclick="() => SelectUser(user)">Edit @user.Name</button>
+			<br />
+			<br />
+		}
+	}
 }
+else
+{
+	<button @onclick="DeselectUser">Back</button>
+	<br />
+	<br />
+	<p>Editing @selectedUser.Name @selectedUser.Id</p>
+	<p>Name:</p><InputText @bind-Value="newName" class="form-control" placeholder="@selectedUser.Name" />
+	<br/>
+	<p>Password:</p><InputText @bind-Value="newPassword" class="form-control" placeHolder="@selectedUser.Password" />
+	<br/>
+	<button @onclick="() => SaveUser(selectedUser)">Save New User Details</button>
+	<p>@errorMessage</p>
+}
+

@@ -11,6 +11,16 @@ public interface IUserService
 	public int AddUser(User user);
 
 	/**
+	 * Updates an existing user with the new user details
+	 */
+	public void UpdateUser(UserViewModel newUser);
+
+	/**
+	 * Gets all the users in the database, not including the Admin
+	 */
+	public List<UserViewModel> GetAllUsers();
+
+	/**
 	 * Gets the user object corresponding to the given ID
 	 */
 	public UserViewModel GetUserFromId(int userId);
