@@ -35,8 +35,8 @@ else
 		{
 			<label for="@student.Id" style="padding-right:5px">@student.Name: </label>
 			<input type="number" id="@student.Id" @bind="student.Mark" />
+			<br />
 		}
-		<br />
 		<button @onclick="SaveResults">Save</button>
 	}
 }
