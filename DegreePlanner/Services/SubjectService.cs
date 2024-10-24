@@ -104,7 +104,7 @@ public class SubjectService(DatabaseContext databaseContext) : ISubjectService
 	public List<SubjectViewModel> GetSubjectsToEnrol(int userId)
 	{
 		var userSubjects = databaseContext.UserSubjects
-			.Where(x => x.UserId == userId && x.State == UserSubjectState.Enrolled || x.State == UserSubjectState.Planned)
+			.Where(x => x.UserId == userId && (x.State == UserSubjectState.Enrolled || x.State == UserSubjectState.Planned))
 			.ToList();
 
 		var plannedSubjectIds = userSubjects.Where(x => x.State == UserSubjectState.Planned).Select(x => x.SubjectId).ToList();
