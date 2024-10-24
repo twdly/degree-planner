@@ -48,6 +48,12 @@ public partial class Results
 
 	private void SaveResults()
 	{
+		if (students.Where(x => x.Mark is < 0 or > 100).Any())
+		{
+			message = "Please only give marks between 1 and 100";
+			return;
+		}
+
 		var updatedStudents = students.Where(x => x.Mark is > 0 and <= 100).ToList();
 		SubjectService.UpdateUserResultsForSubject(updatedStudents, selectedSubjectId);
 		message = $"Results have been saved for {selectedSubjectName}";
