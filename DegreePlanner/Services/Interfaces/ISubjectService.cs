@@ -11,6 +11,16 @@ public interface ISubjectService
 	public void AddSubject(Subject subject);
 
 	/**
+	 * Gets every subject in the database
+	 */
+	public List<SubjectViewModel> GetAllSubjects();
+
+	/**
+	 * Updates subject details according to incoming details
+	 */
+	public void UpdateSubject(SubjectViewModel subject);
+
+	/**
 	 * Gets a list of subjects and marks from subjects with the states passed or failed
 	 */
 	List<SubjectViewModel> GetCompletedSubjects(int userId);

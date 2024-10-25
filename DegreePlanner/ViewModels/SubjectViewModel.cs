@@ -6,6 +6,7 @@ public class SubjectViewModel
 {
 	public int SubjectId { get; set; }
 	public string Name { get; set; }
+	public int SubjectCode { get; set; }
 	public bool Selected; // This selected is used to bind to the checkbox state when enrolling/planning
 	public bool InitiallySelected; // This selected is used to check if the state of Selected has changed when planning/enrolling
 	public DegreeSubjectType Type;
@@ -15,8 +16,9 @@ public class SubjectViewModel
 
 	public SubjectViewModel(Subject subject)
 	{
-		SubjectId = subject.SubjectCode;
+		SubjectId = subject.SubjectId;
 		Name = subject.Name!;
+		SubjectCode = subject.SubjectCode;
 	}
 
 	public SubjectViewModel(UserSubject userSubject, string name)
@@ -31,6 +33,7 @@ public class SubjectViewModel
 	{
 		SubjectId = subject.SubjectId;
 		Name = subject.Name!;
+		SubjectCode = subject.SubjectCode;
 		Selected = selected;
 		InitiallySelected = selected;
 		Type = type;

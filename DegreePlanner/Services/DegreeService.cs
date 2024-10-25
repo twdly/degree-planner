@@ -7,6 +7,31 @@ namespace DegreePlanner.Services;
 
 public class DegreeService(DatabaseContext databaseContext) : IDegreeService
 {
+	public void AttachToDegree(DegreeViewModel degree, int subjectID, DegreeSubjectType type)
+	{
+		DegreeSubject degreeSubject = new DegreeSubject()
+		{
+			DegreeId = degree.Id,
+			SubjectId = subjectID,
+			Type = type,
+		};
+
+		databaseContext.DegreeSubjects.Add(degreeSubject);
+		databaseContext.SaveChanges();
+	}
+
+	public void AttachToMajor(MajorViewModel major, int subjectID)
+	{
+		MajorSubject majorSubject = new MajorSubject()
+		{
+			MajorId = major.Id,
+			SubjectId = subjectID,
+		};
+
+		databaseContext.MajorSubjects.Add(majorSubject);
+		databaseContext.SaveChanges();
+	}
+
 	public void EnrolInDegree(int userId, int degreeId)
 	{
 		var user = databaseContext.Users.FirstOrDefault(x => x.UserId == userId);

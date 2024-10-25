@@ -2,6 +2,7 @@
 using DegreePlanner.Services.Interfaces;
 using DegreePlanner.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace DegreePlanner.Services;
 
@@ -10,6 +11,26 @@ public class SubjectService(DatabaseContext databaseContext) : ISubjectService
 	public void AddSubject(Subject subject)
 	{
 		databaseContext.Subjects.Add(subject);
+		databaseContext.SaveChanges();
+	}
+
+	public List<SubjectViewModel> GetAllSubjects()
+	{
+		List<SubjectViewModel> listOfSubjects = [];
+		foreach (var subject in databaseContext.Subjects)
+		{
+			listOfSubjects.Add(new SubjectViewModel(subject));
+		}
+		return listOfSubjects;
+	}
+
+	public void UpdateSubject(SubjectViewModel newSubject)
+	{
+		var subject = databaseContext.Subjects.FirstOrDefault(x => x.SubjectId == newSubject.SubjectId);
+		Debug.Write(databaseContext.Subjects.First().SubjectId);
+		Debug.Write(newSubject.SubjectId);
+		subject.Name = newSubject.Name;
+		subject.SubjectCode = newSubject.SubjectCode;
 		databaseContext.SaveChanges();
 	}
 

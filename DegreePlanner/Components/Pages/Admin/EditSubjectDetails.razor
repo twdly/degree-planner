@@ -5,6 +5,36 @@
 
 <h3>Edit Subject Details</h3>
 
-@code {
-
+@if (selectedSubject == null)
+{
+	@if (!allSubjects.Any())
+	{
+		<p>There are no subjects</p>
+	}
+	else
+	{
+		@foreach (var subject in allSubjects)
+		{
+			<label>@subject.Name, @subject.SubjectCode</label>
+			<br />
+			<button @onclick="() => SelectSubject(subject)">Edit @subject.Name</button>
+			<br />
+			<br />
+		}
+	}
+}
+else
+{
+	<button @onclick="DeselectSubject">Back</button>
+	<br />
+	<br />
+	<p>Editing @selectedSubject.Name @selectedSubject.SubjectCode</p>
+	<label>Name:</label>
+	<InputText @bind-Value="newName" class="form-control" placeholder="@selectedSubject.Name" />
+	<br />
+	<label>Subject Code:</label>
+	<InputText @bind-Value="newCode" class="form-control" placeHolder="@selectedSubject.SubjectCode" />
+	<br />
+	<button @onclick="() => SaveSubject(selectedSubject)">Save New Subject Details</button>
+	<p>@errorMessage</p>
 }

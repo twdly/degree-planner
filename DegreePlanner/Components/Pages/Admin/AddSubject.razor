@@ -4,10 +4,50 @@
 @attribute [Authorize(Roles = "Admin")]
 
 <h3>Add Subject</h3>
-<EditForm Model="Details" OnSubmit="CreateSubject" FormName="InputtedTeacherDetails">
-	<InputText @bind-Value="Details.Name" class="form-control" placeholder="Subject Name" />
-	<InputText @bind-Value="Details.Code" class="form-control" placeHolder="Subject Code" />
-	<button type="submit">Create Subject</button>
-</EditForm>
 
-<p>@resultMessage</p>
+@if (!createdSubjectDetails)
+{
+	<EditForm Model="Details" FormName="InputtedTeacherDetails">
+		<InputText @bind-Value="Details.Name" class="form-control" placeholder="Subject Name" />
+		<InputText @bind-Value="Details.Code" class="form-control" placeHolder="Subject Code" />
+	</EditForm>
+
+	<button @onclick="() => SelectDegree()">Attach to Degree</button>
+	<button @onclick="() => SelectMajor()">Attach to Major</button>
+
+	<p>@resultMessage</p>
+}
+else if (attachingToDegree)
+{
+	<input type="radio" name="type" @onclick="() => SetSubjectType(Data.DegreeSubjectType.Core)" />
+	<label>Core Subject</label>
+	<input type="radio" name="type" @onclick="() => SetSubjectType(Data.DegreeSubjectType.Elective)" />
+	<label>Elective Subject</label>
+
+	@if(subjectType != Data.DegreeSubjectType.Major)
+	{
+		@foreach (var degree in DegreeService.GetAllDegrees())
+		{
+			<p>@degree.Name</p>
+			<button @onclick="() => AttachToDegree(degree)">Attach</button>
+			<br />
+			<br />
+		}
+	}
+}
+else if (attachingToMajor)
+{
+	@foreach (var degree in DegreeService.GetAllDegrees())
+	{
+		foreach (var major in DegreeService.GetMajorsForDegree(degree))
+		{
+			<p>@major.Name</p>
+			<button @onclick="() => AttachToMajor(major)">Attach</button>
+			<br />
+			<br />
+		}
+	}
+	<p>@resultMessage</p>
+}
+
+

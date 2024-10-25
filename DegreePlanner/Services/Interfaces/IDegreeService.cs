@@ -1,4 +1,5 @@
-﻿using DegreePlanner.ViewModels;
+﻿using DegreePlanner.Data;
+using DegreePlanner.ViewModels;
 
 namespace DegreePlanner.Services.Interfaces;
 
@@ -8,6 +9,16 @@ public interface IDegreeService
 	 * Returns a complete list of all available degrees
 	 */
 	List<DegreeViewModel> GetAllDegrees();
+
+	/**
+	 * Attaches the subject to the chosen degree
+	 */
+	public void AttachToDegree(DegreeViewModel degree, int subjectID, DegreeSubjectType type);
+
+	/**
+	 * Attaches the subject to the chosen major
+	 */
+	public void AttachToMajor(MajorViewModel major, int subjectID);
 
 	/**
 	 * Gets all available majors for a given degree

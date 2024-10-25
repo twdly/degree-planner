@@ -15,7 +15,8 @@
 	{
 		@foreach (var user in allUsers)
 		{
-			<p>@user.Name @user.Id, @user.Role</p>
+			<label>@user.Name @user.Id, @user.Role</label>
+			<br />
 			<button @onclick="() => SelectUser(user)">Edit @user.Name</button>
 			<br />
 			<br />
@@ -28,9 +29,11 @@ else
 	<br />
 	<br />
 	<p>Editing @selectedUser.Name @selectedUser.Id</p>
-	<p>Name:</p><InputText @bind-Value="newName" class="form-control" placeholder="@selectedUser.Name" />
+	<label>Name:</label>
+	<InputText @bind-Value="newName" class="form-control" placeholder="@selectedUser.Name" />
 	<br/>
-	<p>Password:</p><InputText @bind-Value="newPassword" class="form-control" placeHolder="@selectedUser.Password" />
+	<label>Password:</label>
+	<InputText @bind-Value="newPassword" class="form-control" placeHolder="@selectedUser.Password" />
 	<br/>
 	<button @onclick="() => SaveUser(selectedUser)">Save New User Details</button>
 	<p>@errorMessage</p>
