@@ -8,7 +8,7 @@ public interface ISubjectService
 	/**
 	 * Creates a new subject according to the given subject details
 	 */
-	public void AddSubject(Subject subject);
+	public void AddSubject(Subject subject, UserViewModel coordinator);
 
 	public bool CheckAllSubjectCodes(int subjectCode);
 

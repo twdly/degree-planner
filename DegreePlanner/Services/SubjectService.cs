@@ -8,9 +8,12 @@ namespace DegreePlanner.Services;
 
 public class SubjectService(DatabaseContext databaseContext) : ISubjectService
 {
-	public void AddSubject(Subject subject)
+	public void AddSubject(Subject subject, UserViewModel coordinator)
 	{
 		databaseContext.Subjects.Add(subject);
+		databaseContext.SaveChanges();
+		UserSubject userSubject = new UserSubject(coordinator.Id, subject.SubjectId, UserSubjectState.Coordinator);
+		databaseContext.UserSubjects.Add(userSubject);
 		databaseContext.SaveChanges();
 	}
 

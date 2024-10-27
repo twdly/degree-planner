@@ -8,12 +8,18 @@
 @if (!createdSubjectDetails)
 {
 	<EditForm Model="Details" FormName="InputtedTeacherDetails">
+		<label>Select Subject Coordinator</label>
+		<br />
+		@foreach (var teacher in allTeachers)
+		{
+			<input type="radio" name="staff" @onclick="() => SetCoordinator(teacher)" /> @teacher.Name;
+		}
 		<InputText @bind-Value="Details.Name" class="form-control" placeholder="Subject Name" />
 		<InputNumber TValue="int?" @bind-Value="Details.Code" class="form-control" placeHolder="Subject Code" />
 	</EditForm>
 
-	<button @onclick="() => SelectDegree()">Attach to Degree</button>
-	<button @onclick="() => SelectMajor()">Attach to Major</button>
+	<button @onclick="() => SelectDegree()" disabled="@(coordinator == null)">Attach to Degree</button>
+	<button @onclick="() => SelectMajor()" disabled="@(coordinator == null)">Attach to Major</button>
 
 	<p>@resultMessage</p>
 }

@@ -21,6 +21,11 @@ public interface IUserService
 	public List<UserViewModel> GetAllUsers();
 
 	/**
+	 * Gets all staff in the database
+	 */
+	public List<UserViewModel> GetAllStaff();
+
+	/**
 	 * Gets the user object corresponding to the given ID
 	 */
 	public UserViewModel GetUserFromId(int userId);

@@ -25,6 +25,17 @@ public class UserService(DatabaseContext databaseContext) : IUserService
 		return listOfUsers;
 	}
 
+	public List<UserViewModel> GetAllStaff()
+	{
+		List<UserViewModel> listOfUsers = [];
+		var users = databaseContext.Users.Where(x => x.Role == UserRole.Staff).ToList();
+		foreach (var user in users)
+		{
+			listOfUsers.Add(new UserViewModel(user));
+		}
+		return listOfUsers;
+	}
+
 	public void UpdateUser(UserViewModel newUser)
 	{
 		var user = databaseContext.Users.FirstOrDefault(x => x.UserId == newUser.Id);

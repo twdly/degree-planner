@@ -13,8 +13,14 @@ namespace DegreePlanner.Components.Pages.Admin
 		[Inject]
 		IDegreeService DegreeService { get; set; }
 
+		[Inject]
+		IUserService UserService { get; set; }
+
 		[SupplyParameterFromForm]
 		public SubjectDetails Details { get; set; }
+
+		public List<UserViewModel> allTeachers;
+		private UserViewModel? coordinator;
 
 		private string resultMessage = "";
 		private bool createdSubjectDetails, attachingToDegree, attachingToMajor, error;
@@ -66,9 +72,14 @@ namespace DegreePlanner.Components.Pages.Admin
 			subjectType = type;
 		}
 
+		private void SetCoordinator(UserViewModel Coordinator)
+		{
+			coordinator = Coordinator;
+		}
+
 		private void AttachToDegree(DegreeViewModel degree)
 		{
-			SubjectService.AddSubject(createdSubject);
+			SubjectService.AddSubject(createdSubject, coordinator);
 			DegreeService.AttachToDegree(degree, createdSubject.SubjectId, subjectType);
 			ReturnToMenu();
 			//resultMessage = "Subject " + subject.SubjectCode + " " + subject.Name + " was created";
@@ -89,7 +100,7 @@ namespace DegreePlanner.Components.Pages.Admin
 
 		private void AttachToMajor(MajorViewModel major)
 		{
-			SubjectService.AddSubject(createdSubject);
+			SubjectService.AddSubject(createdSubject, coordinator);
 			DegreeService.AttachToMajor(major, createdSubject.SubjectId);
 			ReturnToMenu();
 		}
@@ -108,6 +119,7 @@ namespace DegreePlanner.Components.Pages.Admin
 			attachingToDegree = false;
 			attachingToMajor = false;
 			createdSubject = null;
+			coordinator = null;
 			subjectType = DegreeSubjectType.Major;
 		}
 
@@ -119,6 +131,8 @@ namespace DegreePlanner.Components.Pages.Admin
 			attachingToMajor = false;
 			createdSubject = null;
 			subjectType = DegreeSubjectType.Major;
+			allTeachers = UserService.GetAllStaff();
+			coordinator = null;
 			return base.OnInitializedAsync();
 		}
 	}
