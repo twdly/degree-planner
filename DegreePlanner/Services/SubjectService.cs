@@ -14,6 +14,16 @@ public class SubjectService(DatabaseContext databaseContext) : ISubjectService
 		databaseContext.SaveChanges();
 	}
 
+	public bool CheckAllSubjectCodes(int subjectCode)
+	{
+		List<SubjectViewModel> subjects = GetAllSubjects();
+		foreach (SubjectViewModel subject in subjects)
+		{
+			if (subject.SubjectCode == subjectCode) return true;
+		}
+		return false;
+	}
+
 	public List<SubjectViewModel> GetAllSubjects()
 	{
 		List<SubjectViewModel> listOfSubjects = [];

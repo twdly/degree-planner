@@ -12,7 +12,7 @@
 	<input type="radio" name="role" @onclick="() => SetUserRole(Data.UserRole.Student)" /> Student
 	<input type="radio" name="role" @onclick="() => SetUserRole(Data.UserRole.Staff)" /> Teacher<br />
 
-	<button type="submit">Create User</button>
+	<button @onclick="CreateUser" disabled="@(userRole == Data.UserRole.Admin)">Create User</button>
 </EditForm>
 
 <p>@resultMessage</p>

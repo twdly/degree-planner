@@ -12,7 +12,8 @@ namespace DegreePlanner.Components.Pages.Admin
 
 		SubjectViewModel? selectedSubject = null;
 		List<SubjectViewModel>? allSubjects;
-		string? newName, newCode, errorMessage;
+		string? newName, errorMessage;
+		int? newCode;
 
 		protected override async Task OnInitializedAsync()
 		{
@@ -24,7 +25,7 @@ namespace DegreePlanner.Components.Pages.Admin
 		{
 			selectedSubject = chosenSubject;
 			newName = chosenSubject.Name;
-			newCode = chosenSubject.SubjectCode.ToString();
+			newCode = chosenSubject.SubjectCode;
 		}
 
 		public void SaveSubject(SubjectViewModel subject)
@@ -34,18 +35,21 @@ namespace DegreePlanner.Components.Pages.Admin
 				errorMessage = "No name entered, please enter a name";
 				return;
 			}
-			else if (newCode == null || newCode.Length <= 0)
+			else if (newCode == null || newCode < 1)
 			{
-				errorMessage = "No Subject Code entered, please enter a code";
+				errorMessage = "No valid Subject Code entered, please enter a valid Subject Code";
 				return;
 			}
-			else if (!int.TryParse(newCode, out int code))
+			else if (SubjectService.CheckAllSubjectCodes((int)newCode))
 			{
-				errorMessage = "Subject Code was not a number, please enter a valid number";
-				return;
+				if(newCode != selectedSubject.SubjectCode)
+				{
+					errorMessage = "Subject Code is already assigned to another subject. Please enter another Subject Code";
+					return;
+				}
 			}
 			selectedSubject.Name = newName;
-			selectedSubject.SubjectCode = int.Parse(newCode);
+			selectedSubject.SubjectCode = (int)newCode;
 			SubjectService.UpdateSubject(subject);
 			DeselectSubject();
 		}

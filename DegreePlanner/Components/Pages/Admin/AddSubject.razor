@@ -9,7 +9,7 @@
 {
 	<EditForm Model="Details" FormName="InputtedTeacherDetails">
 		<InputText @bind-Value="Details.Name" class="form-control" placeholder="Subject Name" />
-		<InputText @bind-Value="Details.Code" class="form-control" placeHolder="Subject Code" />
+		<InputNumber TValue="int?" @bind-Value="Details.Code" class="form-control" placeHolder="Subject Code" />
 	</EditForm>
 
 	<button @onclick="() => SelectDegree()">Attach to Degree</button>
@@ -23,12 +23,15 @@ else if (attachingToDegree)
 	<label>Core Subject</label>
 	<input type="radio" name="type" @onclick="() => SetSubjectType(Data.DegreeSubjectType.Elective)" />
 	<label>Elective Subject</label>
+	<br />
+	<br />
 
 	@if(subjectType != Data.DegreeSubjectType.Major)
 	{
 		@foreach (var degree in DegreeService.GetAllDegrees())
 		{
-			<p>@degree.Name</p>
+			<label>@degree.Name</label>
+			<br />
 			<button @onclick="() => AttachToDegree(degree)">Attach</button>
 			<br />
 			<br />
@@ -41,7 +44,8 @@ else if (attachingToMajor)
 	{
 		foreach (var major in DegreeService.GetMajorsForDegree(degree))
 		{
-			<p>@major.Name</p>
+			<label>@major.Name</label>
+			<br/>
 			<button @onclick="() => AttachToMajor(major)">Attach</button>
 			<br />
 			<br />

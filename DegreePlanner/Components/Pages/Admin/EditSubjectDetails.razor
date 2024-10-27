@@ -33,7 +33,7 @@ else
 	<InputText @bind-Value="newName" class="form-control" placeholder="@selectedSubject.Name" />
 	<br />
 	<label>Subject Code:</label>
-	<InputText @bind-Value="newCode" class="form-control" placeHolder="@selectedSubject.SubjectCode" />
+	<InputNumber TValue="int?" @bind-Value="newCode" class="form-control" placeHolder="@selectedSubject.SubjectCode" />
 	<br />
 	<button @onclick="() => SaveSubject(selectedSubject)">Save New Subject Details</button>
 	<p>@errorMessage</p>

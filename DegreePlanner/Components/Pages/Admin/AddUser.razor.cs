@@ -48,6 +48,8 @@ namespace DegreePlanner.Components.Pages.Admin
 
 			userID = UserService.AddUser(user);
 			resultMessage = "Successfully created " + user.Name + " as a " + user.Role + ". Their ID is " + userID;
+			Details = new();
+			userRole = UserRole.Admin;
 		}
 
 		public class UserDetails

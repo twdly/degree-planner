@@ -10,6 +10,8 @@ public interface ISubjectService
 	 */
 	public void AddSubject(Subject subject);
 
+	public bool CheckAllSubjectCodes(int subjectCode);
+
 	/**
 	 * Gets every subject in the database
 	 */

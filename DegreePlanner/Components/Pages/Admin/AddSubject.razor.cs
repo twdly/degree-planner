@@ -29,23 +29,22 @@ namespace DegreePlanner.Components.Pages.Admin
 				error = true;
 				return;
 			}
-			if(Details.Code == null || Details.Code == "")
+			else if(Details.Code == null || !Details.Code.HasValue || Details.Code < 1)
 			{
-				resultMessage = "No code was entered, please enter a code";
+				resultMessage = "No valid code was entered, please enter a valid code";
 				error = true;
 				return;
 			}
-			if(!int.TryParse(Details.Code, out int code))
+			else if (SubjectService.CheckAllSubjectCodes((int)Details.Code))
 			{
-				resultMessage = "Entered code was not a number, please ensure the code is a valid number";
+				resultMessage = "Subject Code is already assigned to another subject. Please enter a new Subject Code";
 				error = true;
 				return;
 			}
-
 			createdSubject = new()
 			{
 				Name = Details.Name,
-				SubjectCode = int.Parse(Details.Code),
+				SubjectCode = (int)Details.Code,
 			};
 		}
 
@@ -98,13 +97,13 @@ namespace DegreePlanner.Components.Pages.Admin
 		public class SubjectDetails
 		{
 			public string? Name { get; set; }
-			public string? Code { get; set; }
+			public int? Code { get; set; }
 		}
 
 		private void ReturnToMenu()
 		{
-			resultMessage = "Created Subject";
-			Details ??= new();
+			resultMessage = $"Created {Details.Name}, {Details.Code}";
+			Details = new();
 			createdSubjectDetails = false;
 			attachingToDegree = false;
 			attachingToMajor = false;
@@ -114,7 +113,7 @@ namespace DegreePlanner.Components.Pages.Admin
 
 		protected override Task OnInitializedAsync()
 		{
-			Details ??= new();
+			Details = new();
 			createdSubjectDetails = false;
 			attachingToDegree = false;
 			attachingToMajor = false;
