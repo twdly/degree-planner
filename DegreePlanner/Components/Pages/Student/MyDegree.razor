@@ -18,7 +18,7 @@
 				@foreach (var subject in degree.Subjects)
 				{
 					<li>
-						@subject.Name
+						@subject.SubjectCode - @subject.Name
 					</li>
 				}
 			</ul>
@@ -30,10 +30,13 @@ else
 {
 	<p>You are currently enrolled in @degreeViewModel.Name</p>
 	<h4>Available subjects:</h4>
+	<ul>
+
 	@foreach (var subject in degreeViewModel.Subjects)
 	{
-		<p>(@subject.SubjectId) - @subject.Name</p>
+		<li>@subject.SubjectCode - @subject.Name</li>
 	}
+	</ul>
 	@if (majors.Any()) // The majors list is only populated if the user has not enrolled in a major yet
 	{
 		<h4>You are not enrolled in a major. Please select one now.</h4>
@@ -47,7 +50,7 @@ else
 				<ul>
 					@foreach (var subject in major.subjects)
 					{
-						<li>@subject.Name</li>
+						<li>@subject.SubjectCode - @subject.Name</li>
 					}
 				</ul>
 			}
@@ -62,7 +65,7 @@ else
 		<ul>
 			@foreach (var subject in userMajor.subjects)
 			{
-				<li>@subject.Name</li>
+				<li>@subject.SubjectCode - @subject.Name</li>
 			}
 		</ul>
 	}

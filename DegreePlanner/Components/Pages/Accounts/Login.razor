@@ -11,11 +11,13 @@
 
 
 <h3>Login</h3>
+<div style="max-width:15vw">
 <EditForm Model="Model" OnSubmit="Authenticate" FormName="Login">
 	<InputText @bind-Value="Model.Id" class="form-control" placeholder="ID" />
 	<InputText @bind-Value="Model.Password" class="form-control" placeHolder="Password" type="password"/>
 	<button type="submit">Log in</button>
 </EditForm>
+</div>
 <p style="color:red">@error</p>
 
 
