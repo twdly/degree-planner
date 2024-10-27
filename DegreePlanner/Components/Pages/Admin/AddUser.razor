@@ -5,7 +5,7 @@
 @attribute [Authorize(Roles = "Admin")]
 
 <h3>Add User</h3>
-<EditForm Model="Details" OnSubmit="CreateUser" FormName="InputtedUserDetails">
+<EditForm Model="Details" FormName="InputtedUserDetails">
 	<InputText @bind-Value="Details.Name" class="form-control" placeholder="User Name" />
 	<InputText @bind-Value="Details.Password" class="form-control" placeHolder="User Password" />
 
