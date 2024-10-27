@@ -12,7 +12,9 @@
 		<br />
 		@foreach (var teacher in allTeachers)
 		{
-			<input type="radio" name="staff" @onclick="() => SetCoordinator(teacher)" /> @teacher.Name;
+			<span style="padding-right:15px">
+				<input type="radio" name="staff" @onclick="() => SetCoordinator(teacher)" /> @teacher.Name
+			</span>
 		}
 		<InputText @bind-Value="Details.Name" class="form-control" placeholder="Subject Name" />
 		<InputNumber TValue="int?" @bind-Value="Details.Code" class="form-control" placeHolder="Subject Code" />
